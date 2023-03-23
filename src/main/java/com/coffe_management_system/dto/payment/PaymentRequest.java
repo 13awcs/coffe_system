@@ -1,0 +1,15 @@
+package com.coffe_management_system.dto.payment;
+
+import com.coffe_management_system.entity.order.PaymentMethod;
+import lombok.Data;
+
+import javax.persistence.Convert;
+
+@Data
+public class PaymentRequest {
+    private Long orderId;
+    private Long customerId;
+
+    @Convert(converter = PaymentMethod.Converter.class)
+    private PaymentMethod paymentMethod;
+}

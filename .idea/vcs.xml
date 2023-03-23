@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/main/resources/admin-one-vue-bulma-dashboard" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/main/resources/vue-board" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/main/resources/web" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/main/resources/web/admin-one-vue-bulma-dashboard" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/main/resources/web/vue-notus" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/main/resources/windzo" vcs="Git" />
+  </component>
+</project>
