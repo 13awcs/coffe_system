@@ -1,10 +1,0 @@
-
-{
-java:S3305"`Inject this field value directly into "authenticationManagerBean", the only method that uses it.(¶òÁÈùÿÿÿÿ
-k
-java:S3305"PInject this field value directly into "configure", the only method that uses it.(¸ñÓèüÿÿÿÿ
-N	java:S1064"9Replace this use of System.out or System.err by a logger.(¤õ›ù
-i
-java:S1128"NRemove this unused import 'com.coffe_management_system.dto.ServerResponseDto'.(¦‰‘§ıÿÿÿÿ
-V
-java:S1128";Remove this unused import 'lombok.RequiredArgsConstructor'.(ÑØúøÿÿÿÿ

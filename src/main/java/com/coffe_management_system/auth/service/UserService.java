@@ -73,18 +73,4 @@ public class UserService implements UserDetailsService {
         return ServerResponseDto.SUCCESS;
     }
 
-//    public User create(RegistrationDto request) {
-//        List<Role> roles = new ArrayList<>();
-//        try {
-//            roles.add(roleService.getByName(Role.ROLE_USER));
-//        } catch (Exception ex) {}
-//        return create(request, roles);
-//    }
-//
-//    public User create(RegistrationDto request, List<Role> roles) {
-//        User user = new User(request.name(), request.username(), passwordEncoder.encode(request.password()), roles);
-//        save(user);
-//        return user;
-//    }
-
 }

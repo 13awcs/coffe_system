@@ -10,6 +10,9 @@ import com.coffe_management_system.auth.repository.UserRepository;
 import com.coffe_management_system.auth.security.JwtTokenUtil;
 import com.coffe_management_system.auth.service.UserService;
 import com.coffe_management_system.dto.ServerResponseDto;
+import com.coffe_management_system.dto.employee.EmployeeAttendanceRequest;
+import com.coffe_management_system.repository.employee.EmployeeAttendanceRepository;
+import com.coffe_management_system.service.employee.EmployeeAttendanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +42,7 @@ public class AuthController {
 
     private final JwtTokenUtil jwtTokenUtil;
 
-    private final UserRepository repository;
+    private final EmployeeAttendanceService attendanceService;
 
     private final BCryptPasswordEncoder passwordEncoder;
 
@@ -55,6 +60,17 @@ public class AuthController {
 
         String accessToken = jwtTokenUtil.generateAccessToken(user);
         String refreshToken = jwtTokenUtil.generateRefreshToken(user);
+
+        JwtTokenUtil j = new JwtTokenUtil();
+        Long employeeId = j.getUserId(accessToken);
+
+        EmployeeAttendanceRequest attendanceRequest = new EmployeeAttendanceRequest();
+        String pattern = "yyyy/MM/dd";
+        String date = new SimpleDateFormat(pattern).format(new Date());
+        attendanceRequest.setDate(date);
+        attendanceRequest.setEmployeeId(employeeId);
+
+        attendanceService.save(attendanceRequest);
 
         LoginResponse response = new LoginResponse(UserResponse.fromEntity(user),accessToken,refreshToken);
 
@@ -86,6 +102,22 @@ public class AuthController {
     @PostMapping("register")
     public ResponseEntity<ServerResponseDto> register(@RequestBody RegistrationDto request) {
         return ResponseEntity.ok(userService.create(request));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<ServerResponseDto> logout(@RequestParam String token) {
+        JwtTokenUtil jwt = new JwtTokenUtil();
+        Long employeeId = jwt.getUserId(token);
+
+        EmployeeAttendanceRequest attendanceRequest = new EmployeeAttendanceRequest();
+        String pattern = "yyyy/MM/dd";
+        String date = new SimpleDateFormat(pattern).format(new Date());
+        attendanceRequest.setDate(date);
+        attendanceRequest.setEmployeeId(employeeId);
+        attendanceRequest.setCheckOut(new Date());
+
+        attendanceService.save(attendanceRequest);
+        return ResponseEntity.ok(ServerResponseDto.SUCCESS);
     }
 
 }
