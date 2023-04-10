@@ -19,14 +19,14 @@
 
       <div class="col col-sm-8 detail-order-block">
         <div class="card shadow mb-4">
-        <div class="card-header py-3">Chi tiết order</div>
+        <div class="card-header py-3">Chi tiết order: Bàn 1</div>
         <div class="detail-order">
           <order-detail-table>
 
           </order-detail-table>
         </div>
       </div>
-        <b-button active>Active</b-button>
+        <b-button class="btn-payment" type="is-danger">Thanh toán</b-button>
       </div>
     </div>
 
@@ -146,6 +146,9 @@
       fillChartData() {
         this.chartData = chartConfig.sampleChartData();
       }
+    },
+    loadData() {
+
     }
   });
 </script>
@@ -212,6 +215,12 @@
 
   .detail-order-block {
     margin-left: 15px;
+  }
+
+  .btn-payment {
+    margin-top: 10px;
+    position: absolute;
+    right: 8%;
   }
 
 </style>

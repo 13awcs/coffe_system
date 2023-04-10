@@ -17,6 +17,7 @@ public class TableEntity {
     private Long id;
 
     private String name;
+    private Long storeId;
     private boolean status = false;
 
 }

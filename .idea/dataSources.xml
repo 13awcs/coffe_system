@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="coffe_management_system@localhost" uuid="a2ba3aa4-7daa-47b5-b9e6-20331f765a58">
+    <data-source source="LOCAL" name="coffe_management_system@localhost" uuid="64e479bf-a92e-4e51-bb04-1035e05a6c3f">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>

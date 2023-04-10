@@ -17,4 +17,5 @@ public class ItemCategoryEntity {
     private Long id;
 
     private String name;
+    private Long storeId;
 }

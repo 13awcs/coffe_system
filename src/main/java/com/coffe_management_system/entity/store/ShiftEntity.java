@@ -21,4 +21,5 @@ public class ShiftEntity {
     private Time startTime;
     private Time endTime;
     private Integer moneyPerHour;
+    private Long storeId;
 }

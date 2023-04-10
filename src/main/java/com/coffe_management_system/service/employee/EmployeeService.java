@@ -16,23 +16,23 @@ import java.util.Optional;
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
 
-    public ServerResponseDto saveEmployee(EmployeeRequest request) {
+    public ServerResponseDto saveEmployee(Long storeId, EmployeeRequest request) {
         Long employeeId = request.getId();
         EmployeeEntity employee = new EmployeeEntity() ;
         if(employeeId == null) {
-            employeeRepository.save(employee.initInstance(request));
+            employeeRepository.save(employee.initInstance(storeId, request));
         } else {
-            Optional<EmployeeEntity> employeeOpt = employeeRepository.findById(employeeId);
+            Optional<EmployeeEntity> employeeOpt = employeeRepository.findByStoreIdAndId(storeId, employeeId);
             if(employeeOpt.isEmpty()) {
                 return ServerResponseDto.ERROR;
             }
-            employeeRepository.save(employee.with(request));
+            employeeRepository.save(employee.with(storeId, request));
         }
         return ServerResponseDto.SUCCESS;
     }
 
-    public ServerResponseDto detailEmployee(Long id) {
-        EmployeeResponseProjection response = employeeRepository.detailEmployee(id);
+    public ServerResponseDto detailEmployee(Long storeId, Long id) {
+        EmployeeResponseProjection response = employeeRepository.detailEmployee(storeId, id);
         if(response == null) {
             return ServerResponseDto.with(ResponseCase.NOT_FOUND);
         }

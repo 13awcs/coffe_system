@@ -1,22 +1,22 @@
 export default [
-  "General",
+  "Chung",
   [
     {
       to: "/",
       icon: "desktop-mac",
-      label: "Dashboard"
+      label: "Trang chủ"
     },
     {
       to: "/order",
       icon: "desktop-mac",
-      label: "Order"
+      label: "Khu vực bàn"
     }
   ],
-  "Examples",
+  "Danh mục",
   [
     {
       to: "/tables",
-      label: "Tables",
+      label: "Bàn",
       icon: "table",
       updateMark: true
     },

@@ -18,22 +18,23 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("item")
+@RequestMapping("item/{storeId}")
 public class ItemController {
     private final ItemService itemService;
 
     @PostMapping("/save")
-    public ResponseEntity<ServerResponseDto> saveItem(@RequestBody ItemRequest request) {
-        return ResponseEntity.ok(itemService.saveItem(request));
+    public ResponseEntity<ServerResponseDto> saveItem(@RequestBody ItemRequest request, @PathVariable Long storeId) {
+        return ResponseEntity.ok(itemService.saveItem(request, storeId));
     }
 
     @GetMapping("/list")
     public ResponseEntity<Page<ItemResponseProjection>> getItems(@RequestParam(defaultValue = "1") int page,
                                                                  @RequestParam(defaultValue = "20") int size,
                                                                  @RequestParam(defaultValue = "name") String sortField,
-                                                                 @RequestParam(defaultValue = "desc") String sortDir) {
+                                                                 @RequestParam(defaultValue = "desc") String sortDir,
+                                                                 @PathVariable Long storeId) {
         Pageable pageable = PageUtil.getPage(sortDir, sortField, page, size);
-        return ResponseEntity.ok(itemService.getPageItems(pageable));
+        return ResponseEntity.ok(itemService.getPageItems(storeId, pageable));
     }
 
     @GetMapping("/{categoryId}/list-item")
@@ -41,15 +42,16 @@ public class ItemController {
                                                                              @RequestParam(defaultValue = "20") int size,
                                                                              @RequestParam(defaultValue = "name") String sortField,
                                                                              @RequestParam(defaultValue = "desc") String sortDir,
+                                                                             @PathVariable Long storeId,
                                                                              @PathVariable Long categoryId) {
         Pageable pageable = PageUtil.getPage(sortDir, sortField, page, size);
-        return ResponseEntity.ok(itemService.getPageItemsByCategoryId(categoryId,pageable));
+        return ResponseEntity.ok(itemService.getPageItemsByCategoryId(storeId, categoryId,pageable));
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<ServerResponseDto> detailItem (@PathVariable Long id) {
-        return ResponseEntity.ok(itemService.detailItem(id));
+    public ResponseEntity<ServerResponseDto> detailItem (@PathVariable Long storeId, @PathVariable Long id) {
+        return ResponseEntity.ok(itemService.detailItem(storeId, id));
     }
 
     @DeleteMapping("/{id}")

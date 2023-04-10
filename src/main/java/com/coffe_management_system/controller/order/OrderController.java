@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("admin/order")
+@RequestMapping("admin/{storeId}/order")
 public class OrderController {
     private final OrderItemService orderItemService;
     private final OrderService orderService;

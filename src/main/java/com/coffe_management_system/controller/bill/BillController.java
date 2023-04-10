@@ -12,19 +12,21 @@ import java.util.Date;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("admin/bill")
+@RequestMapping("admin/{storeId}/bill")
 public class BillController {
     private final BillService billService;
 
     @PostMapping("/save")
-    public ResponseEntity<ServerResponseDto> saveBill(@RequestBody PaymentRequest request, @RequestHeader("Authorization") String token){
-        return ResponseEntity.ok(billService.saveBill(request, token));
+    public ResponseEntity<ServerResponseDto> saveBill(@PathVariable Long storeId,
+                                                      @RequestBody PaymentRequest request,
+                                                      @RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(billService.saveBill(storeId, request, token));
     }
 
     @GetMapping("/history")
-    public ResponseEntity<ServerResponseDto> history(@RequestParam Date date) {
+    public ResponseEntity<ServerResponseDto> history(@PathVariable Long storeId, @RequestParam Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         String createTime = formatter.format(date);
-        return ResponseEntity.ok(billService.getListBillByDate(createTime));
+        return ResponseEntity.ok(billService.getListBillByDate(storeId, createTime));
     }
 }

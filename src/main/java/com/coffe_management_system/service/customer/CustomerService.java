@@ -31,6 +31,7 @@ public class CustomerService {
             if(optional.isEmpty()) {
                 return ServerResponseDto.ERROR;
             }
+            entity.setCreateTime(optional.get().getCreateTime());
             repository.save(entity.with(request));
             typeCustomerService.saveTypeCustomer(entity.getId());
         }

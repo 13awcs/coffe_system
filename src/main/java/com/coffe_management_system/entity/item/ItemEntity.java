@@ -22,13 +22,15 @@ public class ItemEntity {
     private Long categoryId;
     private String image;
     private Integer price;
+    private Long storeId;
 
-    public ItemEntity initInstance(ItemRequest request) {
+    public ItemEntity initInstance(ItemRequest request, Long storeId) {
         return ItemEntity.builder()
                 .name(request.getName())
                 .categoryId(request.getCategoryId())
                 .image(request.getImage())
                 .price(request.getPrice())
+                .storeId(storeId)
                 .build();
     }
 

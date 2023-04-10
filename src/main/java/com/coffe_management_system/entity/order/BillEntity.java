@@ -26,5 +26,6 @@ public class BillEntity {
     private PaymentMethod paymentMethod;
 
     private Long employeeId;
+    private Long storeId;
     private Date createTime;
 }

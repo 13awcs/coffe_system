@@ -11,15 +11,20 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
 
-    @Query(value = "select i.id, i.name, i.category_id, i.image, i.price from item i",nativeQuery = true)
-    Page<ItemResponseProjection> getPageItems(Pageable pageable);
+    Optional<ItemEntity> findByStoreIdAndId(Long storeId, Long itemId);
 
-    @Query(value = "select i.id, i.name, i.image, i.price from item i where i.category_id = ?1",nativeQuery = true)
-    Page<ItemInCategoryResponse> getPageItemsByCategoryId(Long categoryId, Pageable pageable);
+    @Query(value = "select i.id, i.name, i.category_id, i.image, i.price from item i" +
+            "where i.store_id = ?1",nativeQuery = true)
+    Page<ItemResponseProjection> getPageItems(Long storeId, Pageable pageable);
+
+    @Query(value = "select i.id, i.name, i.image, i.price from item i " +
+            "where i.category_id = ?2 and i.store_id = 1",nativeQuery = true)
+    Page<ItemInCategoryResponse> getPageItemsByCategoryId(Long storeId, Long categoryId, Pageable pageable);
 
     @Query(value = "select i.id, i.name, i.image, i.price from item i where i.category_id = :id",nativeQuery = true)
     List<ItemInCategoryResponse> getAll (Long id);

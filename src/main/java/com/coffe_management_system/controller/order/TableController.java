@@ -9,13 +9,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("admin/table")
+@RequestMapping("admin/{storeId}/table")
 public class TableController {
 
     private final TableService service;
 
     @PostMapping("/save")
-    public ResponseEntity<ServerResponseDto> saveTable(@RequestBody TableRequest request) {
-        return ResponseEntity.ok(service.saveTable(request));
+    public ResponseEntity<ServerResponseDto> saveTable(@PathVariable Long storeId, @RequestBody TableRequest request) {
+        return ResponseEntity.ok(service.saveTable(storeId, request));
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<ServerResponseDto> getListTable(@PathVariable Long storeId) {
+        return ResponseEntity.ok(service.getListTable(storeId));
     }
 }

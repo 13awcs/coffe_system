@@ -15,6 +15,5 @@ public class EmployeeRequest {
     private String address;
     private String phone;
     private String email;
-    private Long storeId;
     private Long shiftId;
 }

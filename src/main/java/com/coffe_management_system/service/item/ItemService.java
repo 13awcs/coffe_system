@@ -22,11 +22,11 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     @Transactional
-    public ServerResponseDto saveItem(ItemRequest request) {
+    public ServerResponseDto saveItem(ItemRequest request, Long storeId) {
         Long itemId = request.getId();
         ItemEntity item = new ItemEntity();
         if(itemId == null) {
-            itemRepository.save(item.initInstance(request));
+            itemRepository.save(item.initInstance(request, storeId));
         } else {
             Optional<ItemEntity> itemOpt = itemRepository.findById(request.getId());
             if(itemOpt.isEmpty()) {
@@ -37,12 +37,12 @@ public class ItemService {
         return ServerResponseDto.SUCCESS;
     }
 
-    public Page<ItemResponseProjection> getPageItems(Pageable pageable) {
-        return itemRepository.getPageItems(pageable);
+    public Page<ItemResponseProjection> getPageItems(Long storeId, Pageable pageable) {
+        return itemRepository.getPageItems(storeId, pageable);
     }
 
-    public Page<ItemInCategoryResponse> getPageItemsByCategoryId(Long categoryId, Pageable pageable) {
-        return itemRepository.getPageItemsByCategoryId(categoryId, pageable);
+    public Page<ItemInCategoryResponse> getPageItemsByCategoryId(Long storeId, Long categoryId, Pageable pageable) {
+        return itemRepository.getPageItemsByCategoryId(storeId, categoryId, pageable);
     }
 
     @Transactional
@@ -51,9 +51,9 @@ public class ItemService {
         return ServerResponseDto.SUCCESS;
     }
 
-    public ServerResponseDto detailItem(Long id) {
-        return itemRepository.findById(id)
-                .map(item -> ServerResponseDto.success(ItemResponse.fromEntity(item)))
+    public ServerResponseDto detailItem(Long storeId, Long id) {
+        return itemRepository.findByStoreIdAndId(storeId, id)
+                .map(item -> ServerResponseDto.success(ItemResponse.fromEntity(storeId, item)))
                 .orElse(ServerResponseDto.with(ResponseCase.NOT_FOUND));
     }
 

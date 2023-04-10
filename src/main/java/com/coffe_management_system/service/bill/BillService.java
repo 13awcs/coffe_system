@@ -27,20 +27,21 @@ public class BillService {
     private final TypeCustomerRepository typeCustomerRepository;
     private final TableRepository tableRepository;
 
-    public ServerResponseDto saveBill(PaymentRequest request, String token) {
+    public ServerResponseDto saveBill(Long storeId, PaymentRequest request, String token) {
         JwtTokenUtil j = new JwtTokenUtil();
         Long employeeId = j.getUserId(token);
         Integer finalPrice = orderItemRepository.getFinalPrice(request.getOrderId());
         CustomerEntity customer = customerRepository.findCustomerById(request.getCustomerId());
 
         TypeCustomerEntity typeCustomer = typeCustomerRepository.getDiscountByCustomerId(customer.getId());
-        TableResponseProjection tableFromDB = tableRepository.findByOrderIdAndStatusIsFalse(request.getOrderId(), true);
+        TableResponseProjection tableFromDB = tableRepository.findByStoreIdAndOrderIdAndStatusIsFalse(storeId, request.getOrderId(), true);
 
         BillEntity entity = new BillEntity();
 
         entity.setOrderId(request.getOrderId());
         entity.setCustomerId(request.getCustomerId());
         entity.setEmployeeId(employeeId);
+        entity.setStoreId(storeId);
         entity.setPaymentMethod(request.getPaymentMethod());
         entity.setDiscount(typeCustomer.getTypeCustomer().getValue());
         entity.setFinalPrice((finalPrice - (finalPrice * entity.getDiscount())) + finalPrice * 0.1);
@@ -50,6 +51,7 @@ public class BillService {
         TableEntity table = new TableEntity();
         table.setId(tableFromDB.getId());
         table.setName(tableFromDB.getName());
+        table.setStoreId(storeId);
         table.setStatus(!tableFromDB.getIsStatus());
         tableRepository.save(table);
 
@@ -65,8 +67,8 @@ public class BillService {
         return ServerResponseDto.SUCCESS;
     }
 
-    public ServerResponseDto getListBillByDate(String date) {
-        return ServerResponseDto.success(billRepository.getListBillByDate(date));
+    public ServerResponseDto getListBillByDate(Long storeId, String date) {
+        return ServerResponseDto.success(billRepository.getListBillByDate(storeId, date));
     }
 
 }

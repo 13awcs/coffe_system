@@ -6,6 +6,7 @@ import com.coffe_management_system.entity.item.ItemEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -23,12 +24,14 @@ public class CustomerEntity {
     private String name;
     private String phone;
     private int point;
+    private Date createTime;
 
     public static CustomerEntity initInstance(CustomerRequest request) {
         return CustomerEntity.builder()
                 .name(request.getName())
                 .phone(request.getPhone())
                 .point(request.getPoint())
+                .createTime(new Date())
                 .build();
     }
 

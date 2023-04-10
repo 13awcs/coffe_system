@@ -9,18 +9,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("admin/employee")
+@RequestMapping("admin/{storeId}/employee")
 public class EmployeeController {
     private final EmployeeService employeeService;
 
     @PostMapping("/save")
-    public ResponseEntity<ServerResponseDto> saveEmployee(@RequestBody EmployeeRequest request) {
-        employeeService.saveEmployee(request);
+    public ResponseEntity<ServerResponseDto> saveEmployee(@PathVariable Long storeId, @RequestBody EmployeeRequest request) {
+        employeeService.saveEmployee(storeId, request);
         return ResponseEntity.ok(ServerResponseDto.SUCCESS);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ServerResponseDto> detailEmployee(@PathVariable Long id) {
-        return ResponseEntity.ok(employeeService.detailEmployee(id));
+    public ResponseEntity<ServerResponseDto> detailEmployee(@PathVariable Long storeId, @PathVariable Long id) {
+        return ResponseEntity.ok(employeeService.detailEmployee(storeId, id));
     }
 }

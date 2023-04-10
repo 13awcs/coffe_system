@@ -25,6 +25,7 @@ public class OrderEntity {
     private Long employeeId;
     private Date createTime;
     private boolean status = false;
+    private Long storeId;
 
     public static OrderEntity initInstance(OrderRequest request, Long userId) {
         OrderEntity entity =  OrderEntity.builder()

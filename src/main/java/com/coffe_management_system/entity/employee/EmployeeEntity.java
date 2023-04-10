@@ -30,19 +30,19 @@ public class EmployeeEntity {
     private Long storeId;
     private Long shiftId;
 
-    public EmployeeEntity initInstance(EmployeeRequest request) {
+    public EmployeeEntity initInstance(Long storeId, EmployeeRequest request) {
         return EmployeeEntity.builder()
                 .name(request.getName())
                 .dob(request.getDob())
                 .address(request.getAddress())
                 .phone(request.getPhone())
                 .email(request.getEmail())
-                .storeId(request.getStoreId())
+                .storeId(storeId)
                 .shiftId(request.getShiftId())
                 .build();
     }
 
-    public EmployeeEntity with(EmployeeRequest request) {
+    public EmployeeEntity with(Long storeId, EmployeeRequest request) {
         EmployeeEntity entity = new EmployeeEntity();
         entity.setId(request.getId());
         entity.setName(request.getName());
@@ -50,7 +50,7 @@ public class EmployeeEntity {
         entity.setAddress(request.getAddress());
         entity.setPhone(request.getPhone());
         entity.setEmail(request.getEmail());
-        entity.setStoreId(request.getStoreId());
+        entity.setStoreId(storeId);
         entity.setShiftId(request.getShiftId());
         return entity;
     }
