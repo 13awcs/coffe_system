@@ -5,6 +5,11 @@ export default [
       to: "/",
       icon: "desktop-mac",
       label: "Dashboard"
+    },
+    {
+      to: "/order",
+      icon: "desktop-mac",
+      label: "Order"
     }
   ],
   "Examples",

@@ -29,11 +29,11 @@ public class EmployeeAttendanceService {
             entityToSave.setId(entityFromDB.getId());
             entityToSave.setEmployeeId(entityFromDB.getEmployeeId());
             entityToSave.setCheckIn(entityFromDB.getCheckIn());
-            entityToSave.setCheckOut(request.getCheckOut());
+            entityToSave.setCheckOut(entityFromDB.getCheckOut());
 
-            System.out.println(request.getCheckOut());
-            System.out.println(entityFromDB.getCheckIn());
-            entityToSave.setTotalHour((request.getCheckOut().getTime() - entityFromDB.getCheckIn().getTime()) / 1000 / 60 / 60);
+            System.out.println("Check out: "+entityFromDB.getCheckOut());
+            System.out.println("Check in: "+entityFromDB.getCheckIn());
+            entityToSave.setTotalHour((entityFromDB.getCheckOut().getTime() - entityFromDB.getCheckIn().getTime()) / 1000 / 60 / 60);
             System.err.println(entityToSave.getTotalHour());
         }
         repository.save(entityToSave);

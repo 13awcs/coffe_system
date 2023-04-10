@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "@/views/HomeView.vue";
+import Order from "@/views/Order.vue";
 
 Vue.use(VueRouter);
 
@@ -14,6 +15,16 @@ const routes = [
     path: "/",
     name: "home",
     component: HomeView
+  },
+  {
+    // Document title tag
+    // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
+    meta: {
+      title: "Order"
+    },
+    path: "/order",
+    name: "order",
+    component: Order
   },
   {
     meta: {

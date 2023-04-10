@@ -16,17 +16,15 @@
       <div class="level-right">
         <div class="level-item">
           <div class="buttons is-right">
-            <a
-              href="https://github.com/vikdiesel/admin-one-vue-bulma-dashboard"
-              target="_blank"
+            <p
               class="button is-info"
             >
               <b-icon
-                icon="github-circle"
+                icon="coffee"
                 custom-size="default"
               />
-              <span>Star on GitHub</span>
-            </a>
+              <span>Xin chào</span>
+            </p>
           </div>
         </div>
       </div>

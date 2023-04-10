@@ -1,7 +1,7 @@
 import axios from "axios";
 import router from "@/router";
 
-const BASE_URL = 'http://localhost:8080';
+const BASE_URL = "http://localhost:8080";
 
 export const login = (form) => {
   isLoading.value = true;
