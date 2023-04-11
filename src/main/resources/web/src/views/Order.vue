@@ -10,7 +10,14 @@
           <div class="card-header py-3">Danh sách bàn</div>
           <div class="card-body">
             <div class="table-area" v-for="(numberTable, index) in listOrder">
-              <b-button style="width: 130px; border: double; height: 70px" rounded type="is-light">{{ numberTable.numberTable }}</b-button>
+              <b-button style="width: 130px; border: double; height: 70px"
+                        rounded
+                        type="is-light"
+                        v-model="numberTable.id"
+                        class="'numberTable.status' + ? + green-table : gray-table ''"
+              >
+                {{ numberTable.name }}
+              </b-button>
             </div>
           </div>
 
@@ -19,13 +26,13 @@
 
       <div class="col col-sm-8 detail-order-block">
         <div class="card shadow mb-4">
-        <div class="card-header py-3">Chi tiết order: Bàn 1</div>
-        <div class="detail-order">
-          <order-detail-table>
+          <div class="card-header py-3">Chi tiết order: Bàn 1</div>
+          <div class="detail-order">
+            <order-detail-table>
 
-          </order-detail-table>
+            </order-detail-table>
+          </div>
         </div>
-      </div>
         <b-button class="btn-payment" type="is-danger">Thanh toán</b-button>
       </div>
     </div>
@@ -47,6 +54,7 @@
   import TitleBar from "@/components/TitleBar";
   import NotificationBar from "@/components/NotificationBar";
   import * as chartConfig from "@/components/Charts/chart.config";
+  import axios from "axios";
 
   export default defineComponent({
     name: "Order",
@@ -64,92 +72,91 @@
     data() {
       return {
         titleStack: ["Admin", "Order"],
-        listOrder: [{
-          numberTable: 'Bàn 1',
-        },
-          {
-            numberTable: 'Bàn 2',
-          },{
-            numberTable: 'Bàn 3',
-          },
-          {
-            numberTable: 'Bàn 4',
-          },
-          {
-            numberTable: 'Bàn 2',
-          },{
-            numberTable: 'Bàn 3',
-          },
-          {
-            numberTable: 'Bàn 4',
-          },
-          {
-            numberTable: 'Bàn 2',
-          },{
-            numberTable: 'Bàn 3',
-          },
-          {
-            numberTable: 'Bàn 4',
-          },
-          {
-            numberTable: 'Bàn 2',
-          },{
-            numberTable: 'Bàn 3',
-          },
-          {
-            numberTable: 'Bàn 4',
-          },
-          {
-            numberTable: 'Bàn 2',
-          },{
-            numberTable: 'Bàn 3',
-          },
-          {
-            numberTable: 'Bàn 4',
-          },
-          {
-            numberTable: 'Bàn 2',
-          },{
-            numberTable: 'Bàn 3',
-          },
-          {
-            numberTable: 'Bàn 4',
-          },
-          {
-            numberTable: 'Bàn 2',
-          },{
-            numberTable: 'Bàn 3',
-          },
-          {
-            numberTable: 'Bàn 4',
-          },
-          {
-            numberTable: 'Bàn 2',
-          },{
-            numberTable: 'Bàn 3',
-          },
-          {
-            numberTable: 'Bàn 4',
-          }
-          ]
+        instance: '',
+        error: [],
+        stores: [],
+        listTable: [],
+        listOrder: []
       };
     },
     mounted() {
+      const baseDomain = "http://localhost:8080";
+
+      const baseURL = `${baseDomain}`;
+      this.instance = axios.create({
+        baseURL,
+      });
+      this.instance.interceptors.request.use(
+        (config) => {
+          const token = localStorage.getItem('token');
+          if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+          }
+
+          return config;
+        },
+
+        (error) => {
+          return Promise.reject(error);
+        }
+      );
       this.fillChartData();
 
       this.$buefy.snackbar.open({
         message: "Welcome back",
         queue: false
       });
+      this.loadStore();
+      this.loadTable();
+
     },
+
     methods: {
       fillChartData() {
         this.chartData = chartConfig.sampleChartData();
-      }
-    },
-    loadData() {
+      },
+      loadStore() {
+        axios.interceptors.request.use(
+          (config) => {
+            const token = localStorage.getItem('authtoken');
 
-    }
+            if (token) {
+              config.headers['Authorization'] = `Bearer ${token}`;
+            }
+
+            return config;
+          },
+
+          (error) => {
+            return Promise.reject(error);
+          }
+        );
+        console.log("token: ", localStorage.getItem("token"));
+        this.instance.get("/store/list")
+          .then((response) => {
+            console.log("store", response);
+            this.stores = response.data.data;
+            localStorage.setItem("stores", JSON.stringify(this.stores));
+          })
+          .catch((e) => {
+            this.error.push(e);
+          });
+      },
+
+      loadTable() {
+        // let storeId = localStorage.getItem("store");
+        let storeId = 1;
+        console.log("storeId", storeId);
+        this.instance.get("/admin/" + storeId + "/table/list")
+          .then((response) => {
+            console.log("table", response);
+            this.listOrder = response.data.data;
+          });
+      },
+
+
+    },
+
   });
 </script>
 
@@ -178,7 +185,7 @@
   }
 
   .shadow {
-    box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;
+    box-shadow: 0 .15rem 1.75rem 0 rgba(58, 59, 69, .15) !important;
   }
 
   .card-header {

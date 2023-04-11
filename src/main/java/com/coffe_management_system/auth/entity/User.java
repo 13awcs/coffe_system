@@ -23,13 +23,6 @@ public class User {
     @JsonIgnore
     private String password;
 
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "appuser_roles",
-//            joinColumns = @JoinColumn(name = "appuser_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id")
-//    )
-
     private Long employeeId;
 
     private String role;

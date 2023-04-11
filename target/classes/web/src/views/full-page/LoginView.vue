@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-  import {ref} from "vue";
+  import {onMounted, ref} from "vue";
   import axios from "axios";
   import CardComponent from "@/components/CardComponent.vue";
   import router from "@/router";
@@ -89,16 +89,15 @@
     setTimeout(() => {
       axios.post("http://localhost:8080/auth/login", { username: form.value.username, password: form.value.password })
         .then((response) => {
-          console.log(response);
           token.value = response.data.data.accessToken;
           if (response.data.status.code !== 1000) {
             console.log("Login fail !");
             checkLogin.value = true;
             isLoading.value = false;
           }else {
-            console.log("token: ", token.value);
             localStorage.setItem("token", token.value);
-            localStorage.setItem("username", response.data.data.user.username);
+            localStorage.setItem("username", response.data.data.username);
+            localStorage.setItem("name", response.data.data.name);
             isLoading.value = false;
             router.push("/");
           }
@@ -106,5 +105,23 @@
         });
     }, 750);
   };
+
+  // const loadStore =  () => {
+  //   console.log('token', localStorage.getItem("token"));
+  //   axios.get("http://localhost:8080/store/list", {
+  //     header: {
+  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //     }
+  //   })
+  //     .then((response) => {
+  //       console.log('store', response);
+  //       this.stores = response.data.data;
+  //       localStorage.setItem("stores", JSON.stringify(this.store));
+  //     });
+  // }
+  //
+  // onMounted(() => {
+  //   loadStore();
+  // })
 </script>
 

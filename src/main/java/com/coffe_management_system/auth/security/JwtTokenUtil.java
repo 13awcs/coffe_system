@@ -41,7 +41,7 @@ public class JwtTokenUtil {
                 .withSubject(String.format("%s,%s", user.getId(), user.getUsername()))
                 .withIssuer(bactvJwtIssuer)
                 .withClaim("roles", authorities)
-                .withExpiresAt(new Date(System.currentTimeMillis() + 5 * 60 * 1000)) //todo: how long is this, should declare constants with clear name
+                .withExpiresAt(new Date(System.currentTimeMillis() + 5 * 60 * 100000)) //todo: how long is this, should declare constants with clear name
                 .sign(algorithm);
     }
 

@@ -9,13 +9,13 @@
         class="navbar-item is-hidden-desktop"
         @click.prevent="asideToggleMobile"
       >
-        <b-icon :icon="asideMobileIcon" />
+        <b-icon :icon="asideMobileIcon"/>
       </a>
       <a
         class="navbar-item is-hidden-touch is-hidden-widescreen is-desktop-icon-only"
         @click.prevent="asideDesktopOnlyToggle"
       >
-        <b-icon icon="menu" />
+        <b-icon icon="menu"/>
       </a>
       <div class="navbar-item has-control no-left-space-touch no-left-space-desktop-only">
         <div class="control">
@@ -43,54 +43,19 @@
     >
       <div class="navbar-end">
         <nav-bar-menu class="has-divider">
-          <b-icon
-            icon="menu"
-            custom-size="default"
-          />
-          <span>Sample Menu</span>
-          <div
-            slot="dropdown"
-            class="navbar-dropdown"
-          >
-            <router-link
-              to="/profile"
-              class="navbar-item"
-              exact-active-class="is-active"
-            >
-              <b-icon
-                icon="account"
-                custom-size="default"
-              />
-              <span>My Profile</span>
-            </router-link>
-            <a class="navbar-item">
-              <b-icon
-                icon="settings"
-                custom-size="default"
-              />
-              <span>Settings</span>
-            </a>
-            <a class="navbar-item">
-              <b-icon
-                icon="email"
-                custom-size="default"
-              />
-              <span>Messages</span>
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item">
-              <b-icon
-                icon="logout"
-                custom-size="default"
-              />
-              <span>Log Out</span>
-            </a>
-          </div>
+          <select>
+            <option
+              v-for="(store, index) in stores"
+              v-model="store.id"
+              value="store.id">{{ store.name }}
+            </option>
+          </select>
+
         </nav-bar-menu>
         <nav-bar-menu class="has-divider has-user-avatar">
-          <user-avatar />
+          <user-avatar/>
           <div class="is-user-name">
-            <span>{{ userName }}</span>
+            <span>{{ name }}</span>
           </div>
 
           <div
@@ -132,17 +97,6 @@
             </a>
           </div>
         </nav-bar-menu>
-        <a
-          href="https://github.com/vikdiesel/admin-one-vue-bulma-dashboard"
-          class="navbar-item has-divider is-desktop-icon-only"
-          title="GitHub"
-        >
-          <b-icon
-            icon="github-circle"
-            custom-size="default"
-          />
-          <span>GitHub</span>
-        </a>
         <a
           class="navbar-item is-desktop-icon-only"
           title="Log out"
@@ -160,58 +114,78 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import { mapState } from "vuex";
-import NavBarMenu from "@/components/NavBarMenu.vue";
-import UserAvatar from "@/components/UserAvatar.vue";
-import router from "@/router";
+  import {defineComponent} from "vue";
+  import {mapState} from "vuex";
+  import NavBarMenu from "@/components/NavBarMenu.vue";
+  import UserAvatar from "@/components/UserAvatar.vue";
+  import router from "@/router";
+  import axios from "axios";
 
-export default defineComponent({
-  name: "NavBar",
-  components: {
-    UserAvatar,
-    NavBarMenu
-  },
-  data () {
-    return {
-      isMenuActive: false
-    };
-  },
-  computed: {
-    asideMobileIcon () {
-      return this.isAsideMobileExpanded ? "backburger" : "forwardburger";
+  export default defineComponent({
+    name: "NavBar",
+    components: {
+      UserAvatar,
+      NavBarMenu
     },
-    menuToggleIcon () {
-      return this.isMenuActive ? "close" : "dots-vertical";
+    data() {
+      return {
+        isMenuActive: false,
+        name: "",
+        stores: []
+      };
     },
-    ...mapState([
-      "isAsideMobileExpanded",
-      "isNavBarVisible",
-      "userName"
-    ])
-  },
-  mounted () {
-    this.$router.afterEach(() => {
-      this.isMenuActive = false;
-    });
-  },
-  methods: {
-    asideToggleMobile () {
-      this.$store.commit("asideMobileStateToggle");
+    computed: {
+      asideMobileIcon() {
+        return this.isAsideMobileExpanded ? "backburger" : "forwardburger";
+      },
+      menuToggleIcon() {
+        return this.isMenuActive ? "close" : "dots-vertical";
+      },
+      ...mapState([
+        "isAsideMobileExpanded",
+        "isNavBarVisible",
+        "userName"
+      ])
     },
-    asideDesktopOnlyToggle () {
-      this.$store.dispatch("asideDesktopOnlyToggle");
-    },
-    menuToggle () {
-      this.isMenuActive = !this.isMenuActive;
-    },
-    logout () {
-      router.push("/login");
-      this.$buefy.snackbar.open({
-        message: "Log out clicked",
-        queue: false
+    mounted() {
+      this.name = localStorage.getItem("name");
+      this.$router.afterEach(() => {
+        this.isMenuActive = false;
       });
+      // this.loadStore();
+    },
+    methods: {
+      // loadStore() {
+      //   let token = localStorage.getItem("token");
+      //   console.log("token", token);
+      //   axios.get("http://localhost:8080/store/list", {
+      //     header: {
+      //       Authorization: `Bearer ${token}`,
+      //       token: localStorage.getItem("token")
+      //     }
+      //   })
+      //     .then((response) => {
+      //       console.log("store", response);
+      //       this.stores = response.data.data;
+      //     });
+      // },
+
+      asideToggleMobile() {
+        this.$store.commit("asideMobileStateToggle");
+      },
+      asideDesktopOnlyToggle() {
+        this.$store.dispatch("asideDesktopOnlyToggle");
+      },
+      menuToggle() {
+        this.isMenuActive = !this.isMenuActive;
+      },
+      logout() {
+        router.push("/login");
+        this.$buefy.snackbar.open({
+          message: "Log out clicked",
+          queue: false
+        });
+      }
     }
-  }
-});
+  });
 </script>

@@ -7,8 +7,6 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    // Document title tag
-    // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
     meta: {
       title: "Dashboard"
     },
@@ -17,8 +15,6 @@ const routes = [
     component: HomeView
   },
   {
-    // Document title tag
-    // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
     meta: {
       title: "Order"
     },
@@ -32,9 +28,6 @@ const routes = [
     },
     path: "/tables",
     name: "tables",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "tables" */ "@/views/TablesView.vue")
   },
   {

@@ -1,19 +1,42 @@
 package com.coffe_management_system.auth.dto;
 
+import com.coffe_management_system.auth.entity.User;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.Objects;
 
-public final class RegistrationDto {
-    private final String username;
-    private final String password;
-    private final Long employeeId;
-    private final String role;
+@Setter
+@Getter
+@NoArgsConstructor
 
-    RegistrationDto(String username, String password, Long employeeId, String role) {
+public final class RegistrationDto {
+    private  Long id;
+    private  String username;
+    private  String password;
+    private  Long employeeId;
+    private  String role;
+
+
+    RegistrationDto(Long id, String username, String password, Long employeeId, String role) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.employeeId = employeeId;
         this.role = role;
     }
+
+    public static RegistrationDto fromUser(User user) {
+        RegistrationDto dto = new RegistrationDto();
+        dto.setId(user.getId());
+        dto.setUsername(user.getUsername());
+        dto.setPassword(user.getPassword());
+        dto.setRole(user.getRole());
+        dto.setEmployeeId(user.getEmployeeId());
+        return dto;
+    }
+
 
     public String username() {
         return username;
