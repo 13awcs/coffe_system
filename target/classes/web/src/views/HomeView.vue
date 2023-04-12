@@ -2,7 +2,7 @@
   <div>
     <title-bar :title-stack="titleStack" />
     <hero-bar :has-right-visible="false">
-      Dashboard
+      Trang chủ
     </hero-bar>
     <section class="section is-main-section">
       <notification-bar class="is-info" style="font-weight: bold">
@@ -26,37 +26,37 @@
           class="tile is-child"
           type="is-primary"
           icon="account-multiple"
-          :number="512"
-          label="Clients"
+          :number="54"
+          label="Khách hàng"
         />
         <card-widget
           class="tile is-child"
           type="is-info"
           icon="cart-outline"
-          :number="7770"
-          prefix="$"
-          label="Sales"
+          :number="1200000"
+          prefix="VND"
+          label="Đã bán"
         />
         <card-widget
           class="tile is-child"
           type="is-success"
           icon="chart-timeline-variant"
-          :number="256"
+          :number="25"
           suffix="%"
-          label="Performance"
+          label="Năng suất"
         />
         <card-widget
           class="tile is-child"
           type="is-info"
           icon="cart-outline"
-          :number="1440"
-          prefix="$"
-          label="Total"
+          :number="1440000"
+          prefix="VND"
+          label="Tổng"
         />
       </tiles-block>
 
       <card-component
-        title="Performance"
+        title="Biểu đồ"
         icon="finance"
         header-icon="reload"
         @header-icon-click="fillChartData"
@@ -74,7 +74,7 @@
       </card-component>
 
       <card-component
-        title="Clients"
+        title="Khách hàng"
         class="has-table has-mobile-sort-spaced"
       >
         <clients-table-sample />
@@ -109,7 +109,7 @@ export default defineComponent({
   },
   data () {
     return {
-      titleStack: ["Admin", "Dashboard"],
+      titleStack: ["Admin", "Trang chủ"],
       chartData: null,
       chartOptions: {
         responsive: true,

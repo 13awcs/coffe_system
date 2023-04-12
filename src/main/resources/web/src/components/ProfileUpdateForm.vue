@@ -1,6 +1,6 @@
 <template>
   <card-component
-    title="Edit Profile"
+    title="Chỉnh sửa hồ sơ"
     icon="account-circle"
   >
     <form @submit.prevent="submit">
@@ -13,11 +13,11 @@
       <hr>
       <b-field
         horizontal
-        label="Name"
-        message="Required. Your name"
+        label="Tên"
+        message="Yêu cầu bắt buộc"
       >
         <b-input
-          v-model="userName"
+          v-model="admin"
           name="name"
           required
         />
@@ -25,10 +25,10 @@
       <b-field
         horizontal
         label="E-mail"
-        message="Required. Your e-mail"
+        message="Yêu cầu bắt buộc"
       >
         <b-input
-          v-model="userEmail"
+          v-model="email"
           name="email"
           type="email"
           required
@@ -74,7 +74,9 @@ export default defineComponent({
   },
   data () {
     return {
-      isLoading: false
+      isLoading: false,
+      admin: 'Thủy',
+      email: 'thuy@gmail.com'
     };
   },
   computed: {

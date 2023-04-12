@@ -2,28 +2,28 @@
   <div>
     <title-bar :title-stack="titleStack" />
     <hero-bar>
-      Profile
+      Cá nhân
       <router-link
         slot="right"
         to="/"
         class="button"
       >
-        Dashboard
+        Trang chủ
       </router-link>
     </hero-bar>
     <section class="section is-main-section">
       <tiles-block>
         <profile-update-form class="tile is-child" />
         <card-component
-          title="Profile"
+          title="Hồ sơ"
           icon="account"
           class="tile is-child"
         >
           <user-avatar class="image has-max-width is-aligned-center" />
           <hr>
-          <b-field label="Name">
+          <b-field label="Tên">
             <b-input
-              :value="userName"
+              :value="name"
               custom-class="is-static"
               readonly
             />
@@ -31,7 +31,7 @@
           <hr>
           <b-field label="E-mail">
             <b-input
-              :value="userEmail"
+              :value="email"
               custom-class="is-static"
               readonly
             />
@@ -67,7 +67,9 @@ export default defineComponent({
   },
   data () {
     return {
-      titleStack: ["Admin", "Profile"]
+      titleStack: ["Admin", "Cá nhân"],
+      name: 'Thuy',
+      email: 'thuy@gmail.com'
     };
   },
   computed: {

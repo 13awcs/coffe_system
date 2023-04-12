@@ -16,53 +16,53 @@ export default [
   [
     {
       to: "/tables",
-      label: "Bàn",
+      label: "Danh sách",
       icon: "table",
       updateMark: true
     },
     {
       to: "/forms",
-      label: "Forms",
+      label: "Thông tin",
       icon: "square-edit-outline"
     },
     {
       to: "/profile",
-      label: "Profile",
+      label: "Cá nhân",
       icon: "account-circle"
     },
     {
       to: "/login",
-      label: "Login",
+      label: "Đăng nhập",
       icon: "lock"
     },
     {
-      label: "Submenus",
+      label: "Đồ uống",
       subLabel: "Submenus Example",
       icon: "view-list",
       menu: [
         {
           href: "#void",
-          label: "Sub-item One"
+          label: "Thêm đồ uống"
         },
         {
           href: "#void",
-          label: "Sub-item Two"
+          label: "Danh sách đồ uống"
         }
       ]
     }
   ],
-  "About",
+  "Dành cho nhân viên",
   [
     {
-      href: "https://justboil.me/bulma-admin-template/one/",
-      label: "Premium",
-      icon: "monitor",
+      href: "",
+      label: "Nhân viên",
+      icon: "account",
       target: "_blank"
     },
     {
-      href: "https://github.com/vikdiesel/admin-one-vue-bulma-dashboard",
-      label: "GitHub",
-      icon: "github-circle",
+      href: "",
+      label: "Khách hàng",
+      icon: "account",
       target: "_blank"
     }
   ]

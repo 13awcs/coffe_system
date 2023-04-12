@@ -2,30 +2,30 @@
   <div>
     <title-bar :title-stack="titleStack" />
     <hero-bar>
-      Forms
+      Thông tin
       <router-link
         slot="right"
         to="/"
         class="button"
       >
-        Dashboard
+        Thông tin
       </router-link>
     </hero-bar>
     <section class="section is-main-section">
       <card-component
-        title="Forms"
+        title="Thông tin"
         icon="ballot"
       >
         <form @submit.prevent="formAction">
           <b-field
-            label="From"
+            label="Tên"
             horizontal
           >
             <b-field>
               <b-input
                 v-model="form.name"
                 icon="account"
-                placeholder="Name"
+                placeholder="Tên"
                 name="name"
                 required
               />
@@ -42,7 +42,7 @@
             </b-field>
           </b-field>
           <b-field
-            message="Do not enter the leading zero"
+            message="Không bắt đầu bằng số 0"
             horizontal
           >
             <b-field>
@@ -60,12 +60,12 @@
             </b-field>
           </b-field>
           <b-field
-            label="Department"
+            label="Chức vụ"
             horizontal
           >
             <b-select
               v-model="form.department"
-              placeholder="Select a department"
+              placeholder="Chọn chức vụ"
               required
             >
               <option
@@ -79,25 +79,25 @@
           </b-field>
           <hr>
           <b-field
-            label="Subject"
-            message="Message subject"
+            label="Địa chỉ"
+            message="Nhập địa chỉ"
             horizontal
           >
             <b-input
               v-model="form.subject"
-              placeholder="e.g. Partnership proposal"
+              placeholder="Ví dụ: Hà Nội"
               required
             />
           </b-field>
           <b-field
-            label="Question"
-            message="Your question. Max 255 characters"
+            label="Thông tin cá nhân"
+            message="Không quá 255 kí tự"
             horizontal
           >
             <b-input
               v-model="form.question"
               type="textarea"
-              placeholder="Explain how we can help you"
+              placeholder="Miêu tả về bản thân"
               maxlength="255"
               required
             />
@@ -110,7 +110,7 @@
                   native-type="submit"
                   type="is-info"
                 >
-                  Submit
+                  Xác nhân
                 </b-button>
               </div>
               <div class="control">
@@ -118,7 +118,7 @@
                   type="is-info is-outlined"
                   @click.prevent="formAction"
                 >
-                  Reset
+                  Xóa
                 </b-button>
               </div>
             </b-field>
@@ -126,47 +126,36 @@
         </form>
       </card-component>
       <card-component
-        title="Custom elements"
+        title="Thông tin ca làm việc"
         icon="ballot-outline"
       >
         <b-field
-          label="Checkbox"
+          label="Ca"
           class="has-check"
           horizontal
         >
           <checkbox-radio-picker
             v-model="customElementsForm.checkbox"
-            :options="{ lorem: 'Lorem', ipsum: 'Ipsum', dolore: 'Dolore' }"
+            :options="{ lorem: 'Sáng', ipsum: 'Chiều', dolore: 'Tối' }"
             type="is-info"
           />
         </b-field>
         <hr>
         <b-field
-          label="Radio"
+          label="Cơ sở cửa hàng"
           class="has-check"
           horizontal
         >
           <checkbox-radio-picker
             v-model="customElementsForm.radio"
-            :options="{ one: 'One', two: 'Two' }"
+            :options="{ one: 'Cơ sở 1', two: 'Cơ sở 2' }"
             type="is-info"
           />
         </b-field>
         <hr>
-        <b-field
-          label="Switch"
-          horizontal
-        >
-          <b-switch
-            v-model="customElementsForm.switch"
-            type="is-info"
-          >
-            Default
-          </b-switch>
-        </b-field>
         <hr>
         <b-field
-          label="File"
+          label="Ảnh"
           horizontal
         >
           <file-picker
@@ -198,8 +187,8 @@ export default defineComponent({
   },
   data () {
     return {
-      titleStack: ["Admin", "Forms"],
-      departments: ["Business Development", "Marketing", "Sales"],
+      titleStack: ["Admin", "Thông tin"],
+      departments: ["Phục vụ", "Pha chế", "Thu ngân"],
       form: {
         name: null,
         email: null,

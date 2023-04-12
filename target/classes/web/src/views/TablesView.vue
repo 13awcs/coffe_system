@@ -2,29 +2,20 @@
   <div>
     <title-bar :title-stack="titleStack" />
     <hero-bar>
-      Tables
+      Thông tin
       <router-link
         slot="right"
         to="/"
         class="button"
       >
-        Dashboard
+        Thông tin cửa hàng
       </router-link>
     </hero-bar>
     <section class="section is-main-section">
-      <notification-bar class="is-info">
-        <div>
-          <b-icon
-            icon="buffer"
-            custom-size="default"
-          />
-          <b>Sorted and paginated table.</b>&nbsp;Based on Buefy's table.
-        </div>
-      </notification-bar>
 
       <card-component
         class="has-table has-mobile-sort-spaced"
-        title="Clients"
+        title="Khách hàng"
         icon="account-multiple"
       >
         <clients-table-sample
@@ -34,17 +25,11 @@
 
       <hr>
 
-      <notification-bar class="is-info">
-        <div>
-          <b-icon
-            icon="buffer"
-            custom-size="default"
-          />
-          <b>Tightly wrapped</b> &mdash; table header becomes card header
-        </div>
-      </notification-bar>
-
-      <card-component class="has-table has-mobile-sort-spaced">
+      <card-component
+        class="has-table has-mobile-sort-spaced"
+        title="Nhân viên"
+        icon="account-multiple"
+      >
         <clients-table-sample
           checkable
         />
@@ -52,18 +37,14 @@
 
       <hr>
 
-      <notification-bar class="is-info">
-        <div>
-          <b-icon
-            icon="buffer"
-            custom-size="default"
-          />
-          <b>Empty table.</b> When there's nothing to show
-        </div>
-      </notification-bar>
-
-      <card-component class="has-table has-thead-hidden">
-        <clients-table-sample is-empty />
+      <card-component
+        class="has-table has-mobile-sort-spaced"
+        title="Hoá đơn"
+        icon="account-multiple"
+      >
+        <clients-table-sample
+          checkable
+        />
       </card-component>
     </section>
   </div>

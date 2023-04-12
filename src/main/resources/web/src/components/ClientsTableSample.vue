@@ -11,7 +11,7 @@
       :checkable="checkable"
       :paginated="paginated"
       :per-page="perPage"
-      :data="clients"
+      :data="customers"
       default-sort="name"
       striped
       hoverable
@@ -37,43 +37,28 @@
       </b-table-column>
       <b-table-column
         v-slot="props"
-        label="Company"
-        field="company"
+        label="Số điện thoại"
+        field="phone"
         sortable
       >
-        {{ props.row.company }}
+        {{ props.row.phone }}
       </b-table-column>
       <b-table-column
         v-slot="props"
-        label="City"
-        field="city"
+        label="Điểm"
+        field="point"
         sortable
       >
-        {{ props.row.city }}
+        {{ props.row.point }}
       </b-table-column>
       <b-table-column
         v-slot="props"
-        cell-class="is-progress-col"
-        label="Progress"
-        field="progress"
-        sortable
-      >
-        <progress
-          class="progress is-small is-info"
-          :value="props.row.progress"
-          max="100"
-        >
-          {{ props.row.progress }}
-        </progress>
-      </b-table-column>
-      <b-table-column
-        v-slot="props"
-        label="Created"
+        label="Ngày tạo"
       >
         <small
           class="has-text-grey is-abbr-like"
-          :title="props.row.created"
-        >{{ props.row.created }}</small>
+          :title="props.row.createTime"
+        >{{ props.row.createTime }}</small>
       </b-table-column>
       <b-table-column
         v-slot="props"
@@ -114,7 +99,7 @@
               size="is-large"
             />
           </p>
-          <p>Nothing's here&hellip;</p>
+          <p>Không có dữ liệu&hellip;</p>
         </div>
       </section>
     </b-table>
@@ -122,52 +107,90 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import { mapState } from "vuex";
-import ModalBox from "@/components/ModalBox.vue";
+  import {defineComponent} from "vue";
+  import {mapState} from "vuex";
+  import ModalBox from "@/components/ModalBox.vue";
+  import axios from "axios";
 
-export default defineComponent({
-  name: "ClientsTableSample",
-  components: { ModalBox },
-  props: {
-    checkable: Boolean,
-    isEmpty: Boolean,
-    perPage: {
-      type: Number,
-      default: 10
-    }
-  },
-  data () {
-    return {
-      checkedRows: [],
-      isModalActive: false,
-      trashObject: null
-    };
-  },
-  computed: {
-    paginated () {
-      return this.clients.length > this.perPage;
+  export default defineComponent({
+    name: "ClientsTableSample",
+    components: {ModalBox},
+    props: {
+      checkable: Boolean,
+      isEmpty: Boolean,
+      perPage: {
+        type: Number,
+        default: 10
+      }
     },
-    ...mapState([
-      "clients"
-    ])
-  },
-  methods: {
-    trashModalOpen (obj) {
-      this.trashObject = obj;
-      this.isModalActive = true;
+    data() {
+      return {
+        checkedRows: [],
+        isModalActive: false,
+        trashObject: null,
+        customers: [],
+        instance: '',
+      };
     },
-    trashConfirm () {
-      this.isModalActive = false;
+    mounted() {
+      const baseDomain = "http://localhost:8080";
 
-      this.$buefy.snackbar.open({
-        message: "Confirmed",
-        queue: false
+      const baseURL = `${baseDomain}`;
+      this.instance = axios.create({
+        baseURL,
       });
+      this.instance.interceptors.request.use(
+        (config) => {
+          const token = localStorage.getItem('token');
+          if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+          }
+
+          return config;
+        },
+
+        (error) => {
+          return Promise.reject(error);
+        }
+      );
+      this.loadCustomer();
     },
-    trashCancel () {
-      this.isModalActive = false;
+
+    computed: {
+
+      paginated() {
+        return this.customers.length > this.perPage;
+      },
+      ...mapState([
+        "clients"
+      ])
+    },
+    methods: {
+      loadCustomer() {
+        console.log("token: ", localStorage.getItem("token"));
+        this.instance.get("/customer/list")
+          .then((response) => {
+            this.customers = response.data;
+          })
+          .catch((e) => {
+            this.error.push(e);
+          });
+      },
+      trashModalOpen(obj) {
+        this.trashObject = obj;
+        this.isModalActive = true;
+      },
+      trashConfirm() {
+        this.isModalActive = false;
+
+        this.$buefy.snackbar.open({
+          message: "Confirmed",
+          queue: false
+        });
+      },
+      trashCancel() {
+        this.isModalActive = false;
+      }
     }
-  }
-});
+  });
 </script>

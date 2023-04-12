@@ -14,7 +14,7 @@
                         rounded
                         type="is-light"
                         v-model="numberTable.id"
-                        class=""
+                        class="'numberTable.status' + ? + green-table : gray-table ''"
               >
                 {{ numberTable.name }}
               </b-button>
@@ -26,7 +26,11 @@
 
       <div class="col col-sm-8 detail-order-block">
         <div class="card shadow mb-4">
-          <div class="card-header py-3">Chi tiết order: Bàn 1</div>
+          <div class="card-header py-3">
+            Chi tiết order: Bàn 1
+            <b-button style="margin-left: 65%" type="is-success">Thêm món</b-button>
+          </div>
+
           <div class="detail-order">
             <order-detail-table>
 
@@ -116,21 +120,6 @@
         this.chartData = chartConfig.sampleChartData();
       },
       loadStore() {
-        axios.interceptors.request.use(
-          (config) => {
-            const token = localStorage.getItem('authtoken');
-
-            if (token) {
-              config.headers['Authorization'] = `Bearer ${token}`;
-            }
-
-            return config;
-          },
-
-          (error) => {
-            return Promise.reject(error);
-          }
-        );
         console.log("token: ", localStorage.getItem("token"));
         this.instance.get("/store/list")
           .then((response) => {
