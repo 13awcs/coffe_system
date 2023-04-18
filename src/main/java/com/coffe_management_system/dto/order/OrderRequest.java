@@ -9,5 +9,6 @@ public class OrderRequest {
     private Long id;
     private List<ItemRequestForOrder> listItemRequest;
     private String note;
+    private Long employeeId;
     private Long tableId;
 }

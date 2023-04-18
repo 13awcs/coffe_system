@@ -40,7 +40,7 @@ export const sampleChartData = (points = 9) => {
   const labels = [];
 
   for (let i = 1; i <= points; i++) {
-    labels.push(`0${i}`);
+    labels.push(`${i}`);
   }
 
   return {

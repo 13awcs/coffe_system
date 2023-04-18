@@ -2,7 +2,7 @@
   <div>
     <title-bar :title-stack="titleStack" />
     <hero-bar>
-      Thông tin
+      Danh sách
       <router-link
         slot="right"
         to="/"
@@ -30,7 +30,7 @@
         title="Nhân viên"
         icon="account-multiple"
       >
-        <clients-table-sample
+        <items-table
           checkable
         />
       </card-component>
@@ -57,10 +57,12 @@ import ClientsTableSample from "@/components/ClientsTableSample.vue";
 import CardComponent from "@/components/CardComponent.vue";
 import TitleBar from "@/components/TitleBar.vue";
 import HeroBar from "@/components/HeroBar.vue";
+import ItemsTable from "@/views/ItemTable";
 
 export default defineComponent({
   name: "TablesView",
   components: {
+    ItemsTable,
     HeroBar,
     TitleBar,
     CardComponent,

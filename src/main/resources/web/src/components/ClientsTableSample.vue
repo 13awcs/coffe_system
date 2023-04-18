@@ -29,7 +29,7 @@
       </b-table-column>
       <b-table-column
         v-slot="props"
-        label="Name"
+        label="Tên"
         field="name"
         sortable
       >
@@ -78,7 +78,7 @@
           <b-button
             type="is-danger"
             size="is-small"
-            @click.prevent="trashModalOpen(props.row)"
+            @click="prompt(props.row.id)"
           >
             <b-icon
               icon="trash-can"
@@ -175,6 +175,17 @@
           .catch((e) => {
             this.error.push(e);
           });
+      },
+      prompt(id) {
+        this.$buefy.dialog.prompt({
+          message: `What's your name?`,
+          inputAttrs: [{
+            placeholder: 'e.g. Walter',
+            maxlength: 10
+          }],
+          trapFocus: true,
+          onConfirm: (value) => this.$buefy.toast.open(`Your name is: ${value}`)
+        })
       },
       trashModalOpen(obj) {
         this.trashObject = obj;

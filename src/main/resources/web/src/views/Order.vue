@@ -120,10 +120,8 @@
         this.chartData = chartConfig.sampleChartData();
       },
       loadStore() {
-        console.log("token: ", localStorage.getItem("token"));
         this.instance.get("/store/list")
           .then((response) => {
-            console.log("store", response);
             this.stores = response.data.data;
             localStorage.setItem("stores", JSON.stringify(this.stores));
           })
@@ -135,10 +133,8 @@
       loadTable() {
         // let storeId = localStorage.getItem("store");
         let storeId = 1;
-        console.log("storeId", storeId);
         this.instance.get("/admin/" + storeId + "/table/list")
           .then((response) => {
-            console.log("table", response);
             this.listOrder = response.data.data;
           });
       },

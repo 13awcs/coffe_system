@@ -27,23 +27,23 @@ public class OrderEntity {
     private boolean status = false;
     private Long storeId;
 
-    public static OrderEntity initInstance(OrderRequest request, Long userId) {
+    public static OrderEntity initInstance(OrderRequest request) {
         OrderEntity entity =  OrderEntity.builder()
                 .id(request.getId())
                 .note(request.getNote())
-                .employeeId(userId)
+                .employeeId(request.getEmployeeId())
                 .tableId(request.getTableId())
                 .build();
         final Date now = new Date();
         entity.setCreateTime(now);
         return entity;
     }
-    public OrderEntity with(OrderRequest request, Long userId) {
+    public OrderEntity with(OrderRequest request) {
         OrderEntity entity = new OrderEntity();
         entity.setId(request.getId());
         entity.setNote(request.getNote());
         entity.setTableId(request.getTableId());
-        entity.setEmployeeId(userId);
+        entity.setEmployeeId(request.getEmployeeId());
         entity.setCreateTime(new Date());
         return entity;
     }

@@ -1,6 +1,5 @@
 package com.coffe_management_system.service.order;
 
-import com.coffe_management_system.auth.security.JwtTokenUtil;
 import com.coffe_management_system.dto.ResponseCase;
 import com.coffe_management_system.dto.ServerResponseDto;
 import com.coffe_management_system.dto.order.ItemRequestForOrder;
@@ -31,34 +30,49 @@ public class OrderService {
     private final TableRepository tableRepository;
 
     @Transactional
-    public ServerResponseDto saveOrder(OrderRequest request, String token) {
-        Long tableId = request.getTableId();
-        Optional<TableEntity> tableOpt = tableRepository.findById(tableId);
-        if(tableOpt.get().isStatus()) {
-            return ServerResponseDto.error(ResponseCase.TABLE_IS_BUSY);
-        }
+    public ServerResponseDto saveOrder(OrderRequest request) {
         List<ItemRequestForOrder> itemRequestForOrders = request.getListItemRequest();
-        if(CollectionUtils.isEmpty(itemRequestForOrders)) {
-            System.out.println("List itemRequest is empty");
+        if (CollectionUtils.isEmpty(itemRequestForOrders)) {
             return ServerResponseDto.error("List itemRequest is empty");
         }
+        Long tableId = request.getTableId();
+        boolean isCreateNew = request.getId() == null;
+        OrderEntity order;
+        if (isCreateNew) {
+            order = OrderEntity.initInstance(request);
+        }
+        Optional<OrderEntity> orderOpt = orderRepository.findById(request.getId());
+        if (orderOpt.isEmpty()) {
+            return ServerResponseDto.ERROR;
+        }
+        order = orderOpt.get();
+        order.setEmployeeId(request.getEmployeeId());
+        order.setNote(request.getNote());
 
-        JwtTokenUtil j = new JwtTokenUtil();
-        Long userId = j.getUserId(token);
 
-        OrderEntity entity = OrderEntity.initInstance(request,userId);
-        orderRepository.save(entity);
+//        Optional<TableEntity> tableOpt = tableRepository.findById(tableId);
+//        if(tableOpt.isEmpty()) {
+//            return ServerResponseDto.ERROR;
+//        }
+//        if(tableOpt.get().isStatus()) {
+//            System.err.println(tableOpt.get().isStatus());
+//            return ServerResponseDto.error(ResponseCase.TABLE_IS_BUSY);
+//        }
 
-        orderItemService.saveOrderItem(entity.getId(), request.getListItemRequest());
-        Double price = orderItemRepository.getPriceByOrderId(entity.getId());
-        entity.setTotalPrice(price);
-        orderRepository.save(entity);
-
-        TableEntity table = new TableEntity();
-        table.setId(tableOpt.get().getId());
-        table.setName(tableOpt.get().getName());
-        table.setStatus(!tableOpt.get().isStatus());
-        tableRepository.save(table);
+//
+//        OrderEntity entity = OrderEntity.initInstance(request);
+//        orderRepository.save(entity);
+//
+//        orderItemService.saveOrderItem(entity.getId(), request.getListItemRequest());
+//        Double price = orderItemRepository.getPriceByOrderId(entity.getId());
+//        entity.setTotalPrice(price);
+//        orderRepository.save(entity);
+//
+//        TableEntity table = new TableEntity();
+//        table.setId(tableOpt.get().getId());
+//        table.setName(tableOpt.get().getName());
+//        table.setStatus(!tableOpt.get().isStatus());
+//        tableRepository.save(table);
 
         return ServerResponseDto.SUCCESS;
     }

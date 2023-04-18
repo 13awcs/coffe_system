@@ -18,7 +18,9 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
 
     Optional<ItemEntity> findByStoreIdAndId(Long storeId, Long itemId);
 
-    @Query(value = "select i.id, i.name, i.category_id, i.image, i.price from item i" +
+    @Query(value = "select i.id as id, i.name as name, i.category_id as categoryId, c.name as categoryName, i.image as image, i.price as price " +
+            "from item i " +
+            "join item_category c on i.category_id = c.id " +
             "where i.store_id = ?1",nativeQuery = true)
     Page<ItemResponseProjection> getPageItems(Long storeId, Pageable pageable);
 

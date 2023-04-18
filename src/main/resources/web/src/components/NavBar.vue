@@ -43,11 +43,9 @@
     >
       <div class="navbar-end">
         <nav-bar-menu class="has-divider">
-          <select>
-            <option
-              v-for="(store, index) in stores"
-              v-model="store.id"
-              value="store.id">{{ store.name }}
+          <select v-model="selected" @change="reloadData()">
+            <option v-for="store in stores" :value="store">
+              {{ store.name }}
             </option>
           </select>
 
@@ -131,7 +129,9 @@
       return {
         isMenuActive: false,
         name: "",
-        stores: []
+        stores: [],
+        selected: '',
+        storeName: ''
       };
     },
     computed: {
@@ -147,8 +147,15 @@
         "userName"
       ])
     },
+    watch: {
+        selected() {
+          localStorage.setItem("storeId", this.selected.id)
+        },
+    },
     mounted() {
       this.name = localStorage.getItem("name");
+      this.stores = JSON.parse(localStorage.getItem("stores"));
+      this.selected = this.stores[0]
       this.$router.afterEach(() => {
         this.isMenuActive = false;
       });
@@ -169,7 +176,9 @@
       //       this.stores = response.data.data;
       //     });
       // },
-
+      reloadData() {
+        this.$root.$emit('reload', this.selected.id)
+      },
       asideToggleMobile() {
         this.$store.commit("asideMobileStateToggle");
       },

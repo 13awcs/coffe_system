@@ -19,9 +19,9 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/save")
-    public ResponseEntity<ServerResponseDto> saveOrderItem(@RequestBody OrderRequest request, @RequestHeader("Authorization") String token) {
-        orderService.saveOrder(request, token);
-        return ResponseEntity.ok(orderService.saveOrder(request, token));
+    public ResponseEntity<ServerResponseDto> saveOrderItem(@PathVariable Long storeId, @RequestBody OrderRequest request) {
+        orderService.saveOrder(request);
+        return ResponseEntity.ok(orderService.saveOrder(request));
     }
 
     @GetMapping("/list")

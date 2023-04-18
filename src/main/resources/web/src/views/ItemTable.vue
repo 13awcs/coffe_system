@@ -11,7 +11,7 @@
       :checkable="checkable"
       :paginated="paginated"
       :per-page="perPage"
-      :data="customers"
+      :data="items"
       default-sort="name"
       striped
       hoverable
@@ -22,7 +22,7 @@
       >
         <div class="image">
           <img
-            :src="props.row.avatar"
+            :src="props.row.image"
             class="is-rounded"
           >
         </div>
@@ -37,19 +37,19 @@
       </b-table-column>
       <b-table-column
         v-slot="props"
-        label="Số điện thoại"
+        label="Danh mục"
         field="phone"
         sortable
       >
-        {{ props.row.phone }}
+        {{ props.row.categoryName }}
       </b-table-column>
       <b-table-column
         v-slot="props"
-        label="Điểm"
+        label="Price"
         field="point"
         sortable
       >
-        {{ props.row.point }}
+        {{ props.row.price }}
       </b-table-column>
       <b-table-column
         v-slot="props"
@@ -78,7 +78,8 @@
           <b-button
             type="is-danger"
             size="is-small"
-            @click="prompt(props.row.id)"
+            @click=""
+            v-b-modal.modal-prevent-closing
           >
             <b-icon
               icon="trash-can"
@@ -103,6 +104,7 @@
         </div>
       </section>
     </b-table>
+
   </div>
 </template>
 
@@ -112,8 +114,9 @@
   import ModalBox from "@/components/ModalBox.vue";
   import axios from "axios";
 
+
   export default defineComponent({
-    name: "ClientsTableSample",
+    name: "ItemsTable",
     components: {ModalBox},
     props: {
       checkable: Boolean,
@@ -128,8 +131,11 @@
         checkedRows: [],
         isModalActive: false,
         trashObject: null,
-        customers: [],
+        items: [],
+        storeId: '',
         instance: '',
+        isCard: false,
+        isComponentModalActive: false
       };
     },
     mounted() {
@@ -153,40 +159,35 @@
           return Promise.reject(error);
         }
       );
-      this.loadCustomer();
+      this.storeId = localStorage.getItem("storeId");
+      this.loadItems(this.storeId);
+      this.$root.$on('reload', (storeId) => {
+        this.loadItems(storeId);
+      })
     },
 
     computed: {
 
       paginated() {
-        return this.customers.length > this.perPage;
+        return this.items.length > this.perPage;
       },
       ...mapState([
         "clients"
       ])
     },
     methods: {
-      loadCustomer() {
-        console.log("token: ", localStorage.getItem("token"));
-        this.instance.get("/customer/list")
+      loadItems(storeId) {
+        this.storeId = localStorage.getItem("store");
+        this.instance.get("/item/" +storeId+"/list")
           .then((response) => {
-            this.customers = response.data;
+            console.log(response);
+            this.items = response.data.content;
           })
           .catch((e) => {
             this.error.push(e);
           });
       },
-      prompt(id) {
-        this.$buefy.dialog.prompt({
-          message: `What's your name?`,
-          inputAttrs: [{
-            placeholder: 'e.g. Walter',
-            maxlength: 10
-          }],
-          trapFocus: true,
-          onConfirm: (value) => this.$buefy.toast.open(`Your name is: ${value}`)
-        })
-      },
+
       trashModalOpen(obj) {
         this.trashObject = obj;
         this.isModalActive = true;
@@ -202,6 +203,12 @@
       trashCancel() {
         this.isModalActive = false;
       }
-    }
+    },
+    // reloadData() {
+    //   this.$root.$on('reload', (storeId) => {
+    //     this.loadItems(storeId);
+    //   })
+    // }
+
   });
 </script>
