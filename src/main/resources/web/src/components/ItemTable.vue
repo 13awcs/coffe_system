@@ -7,8 +7,6 @@
       @cancel="trashCancel"
     />
     <b-table
-      :checked-rows.sync="checkedRows"
-      :checkable="checkable"
       :paginated="paginated"
       :per-page="perPage"
       :data="items"
@@ -180,7 +178,6 @@
         this.storeId = localStorage.getItem("store");
         this.instance.get("/item/" +storeId+"/list")
           .then((response) => {
-            console.log(response);
             this.items = response.data.content;
           })
           .catch((e) => {

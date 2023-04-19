@@ -78,12 +78,12 @@ public class OrderService {
     }
 
     public ServerResponseDto detailOrderByTableId(Long tableId) {
-        OrderEntity order = orderRepository.findByTableId(tableId);
-        if(order == null) {
+        Optional<OrderEntity> order = orderRepository.findByTableIdAndIsPaidFalse(tableId);
+        if(order.isEmpty()) {
             return ServerResponseDto.error(ResponseCase.NOT_FOUND);
         }
-        List<ItemResponseForOrder> listItem = orderItemRepository.findByOrderId(order.getId());
-        OrderResponse response = OrderResponse.fromEntity(order);
+        List<ItemResponseForOrder> listItem = orderItemRepository.findByOrderId(order.get().getId());
+        OrderResponse response = OrderResponse.fromEntity(order.get());
         response.setListItemResponse(listItem);
         return ServerResponseDto.success(response);
     }

@@ -11,7 +11,7 @@
         <b-icon icon="menu" />
       </a>
       <div class="aside-tools-label">
-        <span><b>Admin:</b> Thuy</span>
+        <span><b>Admin:</b> Admin</span>
       </div>
     </div>
     <div class="menu is-menu-main">

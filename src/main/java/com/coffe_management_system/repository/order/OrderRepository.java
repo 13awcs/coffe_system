@@ -7,11 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
-    OrderEntity findByTableId(Long tableId);
+    @Query(value = "select o from OrderEntity o where o.tableId = ?1 and o.isPaid = false")
+    Optional<OrderEntity> findByTableIdAndIsPaidFalse(Long tableId);
 
     @Query(value = "select o from OrderEntity o where o.status = ?1")
     List<OrderEntity> findByStatus(boolean status);

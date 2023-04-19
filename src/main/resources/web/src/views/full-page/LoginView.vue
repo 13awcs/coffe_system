@@ -34,12 +34,6 @@
       </b-field>
 
       <b-field>
-        <b-checkbox
-          v-model="form.remember"
-          type="is-black"
-          class="is-thin">
-          Remember me
-        </b-checkbox>
         <div v-if="checkLogin" class="alert alert-danger" style="color: red">
           Username or password is wrong !
         </div>
@@ -56,14 +50,6 @@
           >
             Login
           </b-button>
-        </div>
-        <div class="control">
-          <router-link
-            to="/"
-            class="button is-outlined is-black"
-          >
-            Dashboard
-          </router-link>
         </div>
       </b-field>
     </form>
@@ -99,7 +85,7 @@
             localStorage.setItem("username", response.data.data.username);
             localStorage.setItem("name", response.data.data.name);
             isLoading.value = false;
-            router.push("/");
+            router.push("/home");
           }
 
         });

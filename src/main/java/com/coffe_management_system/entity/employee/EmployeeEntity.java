@@ -29,20 +29,22 @@ public class EmployeeEntity {
     private String email;
     private Long storeId;
     private Long shiftId;
+    private Date createTime;
 
-    public EmployeeEntity initInstance(Long storeId, EmployeeRequest request) {
+    public EmployeeEntity initInstance(EmployeeRequest request) {
         return EmployeeEntity.builder()
                 .name(request.getName())
                 .dob(request.getDob())
                 .address(request.getAddress())
                 .phone(request.getPhone())
                 .email(request.getEmail())
-                .storeId(storeId)
+                .storeId(request.getStoreId())
                 .shiftId(request.getShiftId())
+                .createTime(new Date())
                 .build();
     }
 
-    public EmployeeEntity with(Long storeId, EmployeeRequest request) {
+    public EmployeeEntity with(EmployeeRequest request) {
         EmployeeEntity entity = new EmployeeEntity();
         entity.setId(request.getId());
         entity.setName(request.getName());
@@ -50,7 +52,7 @@ public class EmployeeEntity {
         entity.setAddress(request.getAddress());
         entity.setPhone(request.getPhone());
         entity.setEmail(request.getEmail());
-        entity.setStoreId(storeId);
+        entity.setStoreId(request.getStoreId());
         entity.setShiftId(request.getShiftId());
         return entity;
     }

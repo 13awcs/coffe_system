@@ -7,7 +7,8 @@
     <div class="row">
       <div class="col col-sm-4">
         <div class="card shadow mb-4">
-          <div class="card-header py-3">Danh sách bàn</div>
+          <div class="card-header py-3">Danh sách bàn
+            <b-button style="margin-left: 45%" type="is-success" @click="prompt">Thêm bàn</b-button></div>
           <div class="card-body">
             <div class="table-area" v-for="(numberTable, index) in listOrder">
               <b-button style="width: 130px; border: double; height: 70px"
@@ -15,6 +16,7 @@
                         type="is-light"
                         v-model="numberTable.id"
                         class="'numberTable.status' + ? + green-table : gray-table ''"
+                        @click="detail(storeId, numberTable.id)"
               >
                 {{ numberTable.name }}
               </b-button>
@@ -27,12 +29,14 @@
       <div class="col col-sm-8 detail-order-block">
         <div class="card shadow mb-4">
           <div class="card-header py-3">
-            Chi tiết order: Bàn 1
+            Chi tiết order
             <b-button style="margin-left: 65%" type="is-success">Thêm món</b-button>
           </div>
 
           <div class="detail-order">
-            <order-detail-table>
+            <order-detail-table
+              :data-table="detailData"
+            >
 
             </order-detail-table>
           </div>
@@ -79,8 +83,14 @@
         instance: '',
         error: [],
         stores: [],
+        storeId: '',
         listTable: [],
-        listOrder: []
+        listOrder: [],
+        detailData: [],
+        form: {
+          id: '',
+          name: ''
+        }
       };
     },
     mounted() {
@@ -110,9 +120,12 @@
         message: "Welcome back",
         queue: false
       });
+      this.storeId = localStorage.getItem("storeId")
       this.loadStore();
-      this.loadTable();
-
+      this.loadTable(this.storeId);
+      this.$root.$on('reload', (storeId) => {
+        this.loadTable(storeId);
+      })
     },
 
     methods: {
@@ -130,14 +143,47 @@
           });
       },
 
-      loadTable() {
-        // let storeId = localStorage.getItem("store");
-        let storeId = 1;
+      loadTable(storeId) {
         this.instance.get("/admin/" + storeId + "/table/list")
           .then((response) => {
             this.listOrder = response.data.data;
           });
       },
+
+      prompt() {
+        let storeId = this.storeId;
+        this.$buefy.dialog.prompt({
+          message: `Tên bàn`,
+          inputAttrs: {
+            placeholder: 'Bàn x',
+            maxlength: 10
+          },
+          trapFocus: true,
+          onConfirm: (value) => this.saveTable(storeId, value)
+        })
+      },
+
+      saveTable(storeId, name) {
+        storeId = this.storeId;
+        this.instance.post("/admin/" + storeId + "/table/save", {id: this.form.id, name: name})
+          .then((response) => {
+            if (response.data.status.code === 1000) {
+              this.$buefy.toast.open({
+                message: 'Lưu thành công',
+                type: 'is-success'
+              })
+              this.loadTable(storeId);
+            }
+          });
+      },
+
+      detail(storeId, tableId) {
+        storeId = this.storeId;
+        this.instance.get("/admin/" + storeId + "/order/detail/" +tableId)
+          .then((response) => {
+            this.detailData = response.data.data.listItemResponse
+          });
+      }
 
 
     },

@@ -2,7 +2,7 @@ export default [
   "Chung",
   [
     {
-      to: "/",
+      to: "/home",
       icon: "desktop-mac",
       label: "Trang chủ"
     },
@@ -26,16 +26,6 @@ export default [
       icon: "square-edit-outline"
     },
     {
-      to: "/profile",
-      label: "Cá nhân",
-      icon: "account-circle"
-    },
-    {
-      to: "/login",
-      label: "Đăng nhập",
-      icon: "lock"
-    },
-    {
       label: "Đồ uống",
       subLabel: "Submenus Example",
       icon: "view-list",
@@ -51,19 +41,17 @@ export default [
       ]
     }
   ],
-  "Dành cho nhân viên",
+  "Nhân viên và khách hàng",
   [
     {
-      href: "",
+      to: "/employee",
       label: "Nhân viên",
       icon: "account",
-      target: "_blank"
     },
     {
-      href: "",
+      to: "/client",
       label: "Khách hàng",
       icon: "account",
-      target: "_blank"
     }
   ]
 ];

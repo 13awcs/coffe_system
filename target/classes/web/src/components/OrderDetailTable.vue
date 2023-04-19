@@ -9,7 +9,7 @@
     <b-table
       :checked-rows.sync="checkedRows"
       :checkable="checkable"
-      :data="clients"
+      :data="dataTable"
       default-sort="name"
       striped
       hoverable
@@ -44,7 +44,7 @@
         field="unit-price"
         sortable
       >
-        {{ props.row.unitPrice }}
+        {{ props.row.quantity * props.row.price }}
       </b-table-column>
       <b-table-column
         v-slot="props"
@@ -106,13 +106,14 @@
       perPage: {
         type: Number,
         default: 10
-      }
+      },
+      dataTable: []
     },
     data () {
       return {
         checkedRows: [],
         isModalActive: false,
-        trashObject: null
+        trashObject: null,
       };
     },
     computed: {

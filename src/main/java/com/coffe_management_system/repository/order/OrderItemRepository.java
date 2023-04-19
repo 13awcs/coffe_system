@@ -14,8 +14,10 @@ import java.util.List;
 @Repository
 public interface OrderItemRepository extends JpaRepository<OrderItemEntity, Long> {
 
-    @Query(value = "select oi.id as id, oi.order_id as orderId, oi.item_id as itemId, oi.quantity as quantity " +
+    @Query(value = "select oi.id as id, oi.order_id as orderId, oi.item_id as itemId, i.name as name, oi.quantity as quantity, " +
+            "i.price as price " +
             "from order_item oi " +
+            "join item i on oi.item_id = i.id " +
             "where oi.order_id = ?1", nativeQuery = true)
     List<ItemResponseForOrder> findByOrderId(Long orderId);
 

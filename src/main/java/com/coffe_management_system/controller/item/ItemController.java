@@ -3,9 +3,7 @@ package com.coffe_management_system.controller.item;
 import com.coffe_management_system.dto.ServerResponseDto;
 import com.coffe_management_system.dto.item.ItemInCategoryResponse;
 import com.coffe_management_system.dto.item.ItemRequest;
-import com.coffe_management_system.dto.item.ItemResponse;
 import com.coffe_management_system.dto.item.ItemResponseProjection;
-import com.coffe_management_system.entity.item.ItemEntity;
 import com.coffe_management_system.service.item.ItemService;
 import com.coffe_management_system.util.PageUtil;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

@@ -10,10 +10,10 @@ public class EmployeeRequest {
     private Long id;
     private String name;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date dob;
     private String address;
     private String phone;
     private String email;
     private Long shiftId;
+    private Long storeId;
 }

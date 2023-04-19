@@ -22,6 +22,7 @@ public class TableService {
         TableEntity entity = new TableEntity();
         if(id == null) {
             entity.setName(request.getName());
+            entity.setStoreId(storeId);
         } else {
             Optional<TableEntity> opt = repository.findByStoreIdAndId(storeId, request.getId());
             if(opt.isEmpty()) {

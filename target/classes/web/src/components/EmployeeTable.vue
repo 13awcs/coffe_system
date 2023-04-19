@@ -1,90 +1,114 @@
 <template>
   <div>
     <modal-box
-        :is-active="isModalActive"
-        :trash-object-name="trashObject ? trashObject.name : null "
-        @cancel="trashCancel"
-        @confirm="trashConfirm"
+      :is-active="isModalActive"
+      :trash-object-name="trashObject ? trashObject.name : null "
+      @cancel="trashCancel"
+      @confirm="trashConfirm"
     />
     <b-table
-        :data="customers"
-        :paginated="paginated"
-        :per-page="perPage"
-        default-sort="name"
-        hoverable
-        striped
+      :data="employees"
+      :paginated="paginated"
+      :per-page="perPage"
+      default-sort="name"
+      hoverable
+      striped
     >
       <b-table-column
-          v-slot="props"
-          field="name"
-          label="Tên"
-          sortable
+        v-slot="props"
+        field="name"
+        label="Tên"
+        sortable
       >
         {{ props.row.name }}
       </b-table-column>
       <b-table-column
-          v-slot="props"
-          field="phone"
-          label="Số điện thoại"
-          sortable
+        v-slot="props"
+        field="phone"
+        label="Số điện thoại"
+        sortable
       >
         {{ props.row.phone }}
       </b-table-column>
       <b-table-column
-          v-slot="props"
-          field="point"
-          label="Điểm"
-          sortable
+        v-slot="props"
+        field="address"
+        label="Địa chỉ"
+        sortable
       >
-        {{ props.row.point }}
+        {{ props.row.address }}
       </b-table-column>
       <b-table-column
-          v-slot="props"
-          field="shiftName"
-          label="Ngày tạo"
-          sortable
+        v-slot="props"
+        field="email"
+        label="Email"
+        sortable
       >
-        {{ props.row.createTime.split("T")[0] + " " + props.row.createTime.split("T")[1].split(".")[0] }}
+        {{ props.row.email }}
       </b-table-column>
       <b-table-column
-          v-slot="props"
-          cell-class="is-actions-cell"
-          custom-key="actions"
+        v-slot="props"
+        field="dob"
+        label="Ngày sinh"
+        sortable
+      >
+        {{ props.row.dob.split("T")[0] }}
+      </b-table-column>
+      <b-table-column
+        v-slot="props"
+        field="shiftName"
+        label="Ca làm việc"
+        sortable
+      >
+        {{ props.row.shiftName }}
+      </b-table-column>
+      <b-table-column
+        v-slot="props"
+        field="shiftName"
+        label="Ngày tạo"
+        sortable
+      >
+        {{ props.row.createTime.split("T")[0] }}
+      </b-table-column>
+      <b-table-column
+        v-slot="props"
+        cell-class="is-actions-cell"
+        custom-key="actions"
       >
         <div class="buttons is-right no-wrap">
-          <b-button
+            <b-button
               size="is-small"
               type="is-info"
-              @click="detail(props.row.id)"
-          >
-            <b-icon
+              @click="detail(props.row.storeId, props.row.id)"
+            >
+              <b-icon
                 icon="account-edit"
                 size="is-small"
-            />
-          </b-button>
+              />
+            </b-button>
 
-          <b-button
+            <b-button
               size="is-small"
               type="is-danger"
               @click="prompt(props.row.id)"
-          >
-            <b-icon
+            >
+              <b-icon
                 icon="trash-can"
                 size="is-small"
-            />
-          </b-button>
+              />
+            </b-button>
         </div>
       </b-table-column>
 
       <section
-          slot="empty"
-          class="section"
+        slot="empty"
+        class="section"
       >
         <div class="content has-text-grey has-text-centered">
           <p>
             <b-icon
-                icon="emoticon-sad"
-                size="is-large"
+              icon="emoticon-sad"
+              size="is-large"
             />
           </p>
           <p>Không có dữ liệu&hellip;</p>
@@ -96,38 +120,38 @@
     <transition v-if="myModel" name="modal">
       <div class="modal-mask">
         <card-component
-            class="modal-card"
-            icon="ballot"
-            title="Thông tin"
+          class="modal-card"
+          icon="ballot"
+          title="Thông tin"
         >
           <form @submit.prevent="formAction">
             <b-field
-                horizontal
-                label="Tên"
+              horizontal
+              label="Tên"
             >
               <b-field>
                 <b-input
-                    v-model="employee.name"
-                    icon="account"
-                    name="name"
-                    placeholder="Tên"
-                    required
+                  v-model="employee.name"
+                  icon="account"
+                  name="name"
+                  placeholder="Tên"
+                  required
                 />
               </b-field>
               <b-field>
                 <b-input
-                    v-model="employee.email"
-                    icon="email"
-                    name="email"
-                    placeholder="E-mail"
-                    required
-                    type="email"
+                  v-model="employee.email"
+                  icon="email"
+                  name="email"
+                  placeholder="E-mail"
+                  required
+                  type="email"
                 />
               </b-field>
             </b-field>
             <b-field
-                horizontal
-                message="Không bắt đầu bằng số 0"
+              horizontal
+              message="Không bắt đầu bằng số 0"
             >
               <b-field>
                 <p class="control">
@@ -136,28 +160,28 @@
                   </a>
                 </p>
                 <b-input
-                    v-model="employee.phone"
-                    expanded
-                    name="phone"
-                    type="tel"
+                  v-model="employee.phone"
+                  expanded
+                  name="phone"
+                  type="tel"
                 />
               </b-field>
             </b-field>
 
             <b-field
-                horizontal
-                label="Địa chỉ"
-                message="Nhập địa chỉ"
+              horizontal
+              label="Địa chỉ"
+              message="Nhập địa chỉ"
             >
               <b-input
-                  v-model="employee.address"
-                  placeholder="Ví dụ: Hà Nội"
-                  required
+                v-model="employee.address"
+                placeholder="Ví dụ: Hà Nội"
+                required
               />
             </b-field>
             <b-field
-                horizontal
-                label="Ngày sinh"
+              horizontal
+              label="Ngày sinh"
             >
               <b-datepicker v-model="employee.dob"
                             :first-day-of-week="1"
@@ -167,18 +191,18 @@
             </b-field>
 
             <b-field
-                class="has-check"
-                horizontal
-                label="Ca"
+              class="has-check"
+              horizontal
+              label="Ca"
             >
               <div v-for="shift in shifts">
                 <input id="shift" v-model="employee.shiftId" :value="shift.id" type="radio"/> {{ shift.name }}
               </div>
             </b-field>
             <b-field
-                class="has-check"
-                horizontal
-                label="Cơ sở cửa hàng"
+              class="has-check"
+              horizontal
+              label="Cơ sở cửa hàng"
             >
               <div v-for="store in stores">
                 <input id="store" v-model="employee.storeId" :value="store.id" type="radio"/> {{ store.name }}
@@ -189,10 +213,10 @@
           </form>
 
           <b-notification
-              v-model="isActive"
-              aria-close-label="Close notification"
-              auto-close
-              type="is-danger">
+            v-model="isActive"
+            aria-close-label="Close notification"
+            auto-close
+            type="is-danger">
             Vui lòng điền đẩy đủ thông tin
           </b-notification>
           <div class="group-btn">
@@ -232,7 +256,7 @@
         checkedRows: [],
         isModalActive: false,
         trashObject: null,
-        customers: [],
+        employees: [],
         date: new Date(),
         stores: [],
         shifts: [],
@@ -241,11 +265,16 @@
         firstName: "",
         lastName: "",
         myModel: false,
-        customer: {
+        employee: {
           id: "",
           name: "",
+          dob: "",
+          address: "",
           phone: "",
-          point: "",
+          email: "",
+          storeId: "",
+          shiftId: "",
+          shiftName: "",
           createTime: ""
         }
 
@@ -259,49 +288,76 @@
         baseURL,
       });
       this.instance.interceptors.request.use(
-          (config) => {
-            const token = localStorage.getItem("token");
-            if (token) {
-              config.headers["Authorization"] = `Bearer ${token}`;
-            }
-
-            return config;
-          },
-
-          (error) => {
-            return Promise.reject(error);
+        (config) => {
+          const token = localStorage.getItem("token");
+          if (token) {
+            config.headers["Authorization"] = `Bearer ${token}`;
           }
+
+          return config;
+        },
+
+        (error) => {
+          return Promise.reject(error);
+        }
       );
       this.storeId = localStorage.getItem("storeId");
-      this.loadClient();
+      this.loadEmployee(this.storeId);
+      this.loadStore();
+      this.loadShift(this.storeId);
+      this.employee.storeId = this.stores[0].id;
+      this.employee.shiftId = this.shifts[0].id;
     },
 
     computed: {
+
       paginated() {
-        return this.customers.length > this.perPage;
+        return this.employees.length > this.perPage;
       },
 
     },
     methods: {
-      loadClient() {
-        this.instance.get("/customer/list")
-            .then((response) => {
-              this.customers = response.data;
-            })
-            .catch((e) => {
-              this.error.push(e);
-            });
+      loadEmployee(storeId) {
+        this.instance.get("/admin/employee/" + storeId + "/list")
+          .then((response) => {
+            this.employees = response.data.content;
+          })
+          .catch((e) => {
+            this.error.push(e);
+          });
       },
 
-      detail (id) {
+      loadStore() {
+        this.instance.get("/store/list")
+          .then((response) => {
+            this.stores = response.data.data;
+            this.employee.storeId = this.stores[0].id;
+          })
+          .catch((e) => {
+            this.error.push(e);
+          });
+      },
+
+      loadShift(storeId) {
+        this.instance.get("admin/" + storeId + "/shift/list")
+          .then((response) => {
+            this.shifts = response.data;
+            this.employee.shiftId = this.shifts[0].id;
+          })
+          .catch((e) => {
+            this.error.push(e);
+          });
+      },
+
+      detail (storeId, id) {
         this.myModel = true;
-        this.instance.get("customer/detail/" + id)
-            .then((response) => {
-              this.customer = response.data.data;
-            })
-            .catch((e) => {
-              this.error.push(e);
-            });
+        this.instance.get("admin/employee/" + storeId + "/detail/" + id)
+          .then((response) => {
+            this.employee = response.data.data;
+          })
+          .catch((e) => {
+            this.error.push(e);
+          });
       },
 
       submit() {
@@ -309,15 +365,15 @@
           this.pause();
         } else {
           this.instance.post("/admin/employee/save", this.employee)
-              .then((response) => {
-                if (response.data.status.code === 1000) {
-                  this.myModel = false;
-                  this.$buefy.toast.open({
-                    message: "Lưu thành công",
-                    type: "is-success"
-                  });
-                }
-              });
+            .then((response) => {
+              if (response.data.status.code === 1000) {
+                this.myModel = false;
+                this.$buefy.toast.open({
+                  message: "Lưu thành công",
+                  type: "is-success"
+                });
+              }
+            });
         }
 
       },

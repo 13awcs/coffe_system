@@ -10,7 +10,7 @@ const routes = [
     meta: {
       title: "Dashboard"
     },
-    path: "/",
+    path: "/home",
     name: "home",
     component: HomeView
   },
@@ -64,16 +64,33 @@ const routes = [
     props: true
   },
   {
-    path: "/full-page",
+    meta: {
+      title: "Nhân viên"
+    },
+    path: "/employee",
+    name: "employee",
+    component: () => import(/* webpackChunkName: "client-form" */ "@/views/EmployeeTableView.vue")
+  },
+  {
+    meta: {
+      title: "Khách hàng"
+    },
+    path: "/client",
+    name: "client",
+    component: () => import(/* webpackChunkName: "client-form" */ "@/views/ClientTableView.vue")
+  },
+  {
+    path: "/",
     component: () => import(/* webpackChunkName: "full-page" */ "@/views/FullPageView.vue"),
     children: [
       {
         meta: {
-          title: "Login"
+          title: "Đăng nhập"
         },
-        path: "/login",
+        path: "",
         name: "login",
-        component: () => import(/* webpackChunkName: "full-page" */ "@/views/full-page/LoginView.vue")
+        component: () => import(/* webpackChunkName: "full-page" */ "@/views/full-page/LoginView.vue"),
+        alias: '/login'
       }
     ]
   }

@@ -8,7 +8,7 @@
         <div class="level-left">
           <div class="level-item">
             <div class="footer-copyright">
-              <b>&copy; {{ year }}, ThuyCf.me</b>. <a
+              <b>&copy; {{ year }}, MyCf.me</b>. <a
                 target="_blank"
               >GitHub</a>
             </div>

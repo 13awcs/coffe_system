@@ -22,8 +22,8 @@ table.table {
   td {
     .image {
       margin: 0 auto;
-      width: $table-avatar-size;
-      height: $table-avatar-size;
+      width: 3rem;
+      height: 2.5rem;
     }
 
     &.is-progress-col {

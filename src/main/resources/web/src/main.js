@@ -16,7 +16,7 @@ import App from "./App.vue";
 store.dispatch("fetch", "clients");
 
 /* Default title tag */
-const defaultDocumentTitle = "Thuy Caffe";
+const defaultDocumentTitle = "My Caffe";
 
 /* Collapse mobile aside menu on route change & set document title from route meta */
 router.afterEach(to => {

@@ -18,9 +18,6 @@
         title="Khách hàng"
         icon="account-multiple"
       >
-        <clients-table-sample
-          checkable
-        />
       </card-component>
 
       <hr>
@@ -57,7 +54,7 @@ import ClientsTableSample from "@/components/ClientsTableSample.vue";
 import CardComponent from "@/components/CardComponent.vue";
 import TitleBar from "@/components/TitleBar.vue";
 import HeroBar from "@/components/HeroBar.vue";
-import ItemsTable from "@/views/ItemTable";
+import ItemsTable from "@/components/ItemTable";
 
 export default defineComponent({
   name: "TablesView",
