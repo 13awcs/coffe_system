@@ -16,18 +16,15 @@ import java.util.Optional;
 @Repository
 public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
 
-    Optional<ItemEntity> findByStoreIdAndId(Long storeId, Long itemId);
-
-    @Query(value = "select i.id as id, i.name as name, i.category_id as categoryId, c.name as categoryName, i.image as image, i.price as price " +
+    @Query(value = "select i.id as id, i.name as name, i.category_id as categoryId, c.name as categoryName, i.price as price " +
             "from item i " +
-            "join item_category c on i.category_id = c.id " +
-            "where i.store_id = ?1",nativeQuery = true)
-    Page<ItemResponseProjection> getPageItems(Long storeId, Pageable pageable);
+            "join item_category c on i.category_id = c.id ",nativeQuery = true)
+    Page<ItemResponseProjection> getPageItems(Pageable pageable);
 
-    @Query(value = "select i.id, i.name, i.image, i.price from item i " +
-            "where i.category_id = ?2 and i.store_id = 1",nativeQuery = true)
-    Page<ItemInCategoryResponse> getPageItemsByCategoryId(Long storeId, Long categoryId, Pageable pageable);
+    @Query(value = "select i.id, i.name, i.price from item i " +
+            "where i.category_id = ?1",nativeQuery = true)
+    Page<ItemInCategoryResponse> getPageItemsByCategoryId(Long categoryId, Pageable pageable);
 
-    @Query(value = "select i.id, i.name, i.image, i.price from item i where i.category_id = :id",nativeQuery = true)
+    @Query(value = "select i.id, i.name, i.price from item i where i.category_id = :id",nativeQuery = true)
     List<ItemInCategoryResponse> getAll (Long id);
 }

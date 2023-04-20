@@ -13,7 +13,16 @@
       default-sort="name"
       hoverable
       striped
+      @reload-employee="loadEmployee(storeId)"
     >
+      <b-table-column
+        v-slot="props"
+        field="id"
+        label="ID"
+        sortable
+      >
+        {{ props.row.id }}
+      </b-table-column>
       <b-table-column
         v-slot="props"
         field="name"
@@ -90,7 +99,7 @@
             <b-button
               size="is-small"
               type="is-danger"
-              @click="prompt(props.row.id)"
+              @click="openDialogDelete(props.row.id)"
             >
               <b-icon
                 icon="trash-can"
@@ -114,9 +123,7 @@
           <p>Không có dữ liệu&hellip;</p>
         </div>
       </section>
-
     </b-table>
-
     <transition v-if="myModel" name="modal">
       <div class="modal-mask">
         <card-component
@@ -262,8 +269,6 @@
         shifts: [],
         errors: [],
         instance: "",
-        firstName: "",
-        lastName: "",
         myModel: false,
         employee: {
           id: "",
@@ -307,6 +312,9 @@
       this.loadShift(this.storeId);
       this.employee.storeId = this.stores[0].id;
       this.employee.shiftId = this.shifts[0].id;
+      this.$root.$on("load", () => {
+        this.loadEmployee();
+      });
     },
 
     computed: {
@@ -382,6 +390,34 @@
         if (this.employee.name === "" || this.employee.phone === "" || this.employee.address === "") {
           return true;
         }
+      },
+
+      openDialogDelete(id) {
+        this.$buefy.dialog.confirm({
+          title: "Xóa nhân viên",
+          message: "Bạn chắc chắn <b>xóa</b> chứ ?",
+          confirmText: "Xóa",
+          cancelText: 'Hủy',
+          type: "is-danger",
+          hasIcon: true,
+          onConfirm: () => this.confirmDelete(id)
+        });
+      },
+
+      confirmDelete(id) {
+        this.instance.delete("admin/employee/" + id)
+          .then((response) => {
+            if (response.data.status.code === 1000) {
+              this.loadEmployee(this.storeId);
+              this.$buefy.toast.open({
+                message: "Xóa thành công",
+                type: "is-success"
+              });
+            }
+          })
+          .catch((e) => {
+            this.error.push(e);
+          });
       },
 
       pause() {

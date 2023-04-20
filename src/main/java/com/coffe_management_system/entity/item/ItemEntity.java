@@ -4,6 +4,7 @@ import com.coffe_management_system.dto.item.ItemRequest;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -20,17 +21,15 @@ public class ItemEntity {
 
     private String name;
     private Long categoryId;
-    private String image;
     private Integer price;
-    private Long storeId;
+    private Date createTime;
 
-    public ItemEntity initInstance(ItemRequest request, Long storeId) {
+    public ItemEntity initInstance(ItemRequest request) {
         return ItemEntity.builder()
                 .name(request.getName())
                 .categoryId(request.getCategoryId())
-                .image(request.getImage())
                 .price(request.getPrice())
-                .storeId(storeId)
+                .createTime(new Date())
                 .build();
     }
 
@@ -39,7 +38,6 @@ public class ItemEntity {
                 entity.setId(request.getId());
                 entity.setName(request.getName());
                 entity.setCategoryId(request.getCategoryId());
-                entity.setImage(request.getImage());
                 entity.setPrice(request.getPrice());
                 return entity;
     }

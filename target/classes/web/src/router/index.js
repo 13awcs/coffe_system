@@ -65,6 +65,22 @@ const routes = [
   },
   {
     meta: {
+      title: "Đồ uống"
+    },
+    path: "/item",
+    name: "item",
+    component: () => import(/* webpackChunkName: "forms" */ "@/views/ItemTableView.vue")
+  },
+  {
+    meta: {
+      title: "Loại đồ uống"
+    },
+    path: "/category",
+    name: "category",
+    component: () => import(/* webpackChunkName: "forms" */ "@/views/CategoryTableView.vue")
+  },
+  {
+    meta: {
       title: "Nhân viên"
     },
     path: "/employee",

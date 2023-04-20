@@ -13,6 +13,7 @@ import com.coffe_management_system.repository.customer.CustomerRepository;
 import com.coffe_management_system.repository.customer.TypeCustomerRepository;
 import com.coffe_management_system.repository.order.OrderItemRepository;
 import com.coffe_management_system.repository.order.TableRepository;
+import com.coffe_management_system.service.customer.TypeCustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.Date;
@@ -26,6 +27,7 @@ public class BillService {
     private final CustomerRepository customerRepository;
     private final TypeCustomerRepository typeCustomerRepository;
     private final TableRepository tableRepository;
+    private final TypeCustomerService typeCustomerService;
 
     public ServerResponseDto saveBill(Long storeId, PaymentRequest request, String token) {
         JwtTokenUtil j = new JwtTokenUtil();
@@ -63,6 +65,7 @@ public class BillService {
             customer.setPoint(customer.getPoint());
         }
         customerRepository.save(customer);
+        typeCustomerService.saveTypeCustomer(customer.getId());
 
         return ServerResponseDto.SUCCESS;
     }

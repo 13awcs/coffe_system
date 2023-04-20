@@ -1,6 +1,5 @@
 package com.coffe_management_system.service.customer;
 
-import com.coffe_management_system.dto.ServerResponseDto;
 import com.coffe_management_system.entity.customer.CustomerEntity;
 import com.coffe_management_system.entity.customer.TypeCustomer;
 import com.coffe_management_system.entity.customer.TypeCustomerEntity;
@@ -15,14 +14,13 @@ public class TypeCustomerService {
     private final TypeCustomerRepository repository;
     private final CustomerRepository customerRepository;
 
-    public ServerResponseDto saveTypeCustomer(Long customerId) {
+    public void saveTypeCustomer(Long customerId) {
         CustomerEntity customer = customerRepository.findCustomerById(customerId);
         TypeCustomer typeCustomer = setTypeCustomer(customer);
         TypeCustomerEntity entity = new TypeCustomerEntity();
         entity.setCustomerId(customerId);
         entity.setTypeCustomer(typeCustomer);
         repository.save(entity);
-        return ServerResponseDto.SUCCESS;
     }
 
     public TypeCustomer setTypeCustomer(CustomerEntity entity) {

@@ -40,4 +40,8 @@ public class EmployeeAttendanceService {
 
         return ServerResponseDto.SUCCESS;
     }
+
+    public ServerResponseDto statisticAttendance(Long storeId) {
+        return ServerResponseDto.success(repository.getListAttendance(storeId));
+    }
 }

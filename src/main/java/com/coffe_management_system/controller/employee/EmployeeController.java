@@ -3,6 +3,7 @@ package com.coffe_management_system.controller.employee;
 import com.coffe_management_system.dto.ServerResponseDto;
 import com.coffe_management_system.dto.employee.EmployeeRequest;
 import com.coffe_management_system.dto.employee.EmployeeResponseProjection;
+import com.coffe_management_system.service.employee.EmployeeAttendanceService;
 import com.coffe_management_system.service.employee.EmployeeService;
 import com.coffe_management_system.util.PageUtil;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final EmployeeAttendanceService attendanceService;
 
     @PostMapping("/save")
     public ResponseEntity<ServerResponseDto> saveEmployee(@RequestBody EmployeeRequest request) {
@@ -38,5 +40,15 @@ public class EmployeeController {
                                                                             @PathVariable Long storeId) {
         Pageable pageable = PageUtil.getPage(sortDir, sortField, page, size);
         return ResponseEntity.ok(employeeService.getPageEmployee(storeId, pageable));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ServerResponseDto> delete(@PathVariable Long id) {
+        return ResponseEntity.ok(employeeService.delete(id));
+    }
+
+    @GetMapping("/{storeId}/attendance/list")
+    public ResponseEntity<ServerResponseDto> detailEmployee(@PathVariable Long storeId) {
+        return ResponseEntity.ok(attendanceService.statisticAttendance(storeId));
     }
 }

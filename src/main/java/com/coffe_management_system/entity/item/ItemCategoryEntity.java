@@ -3,6 +3,7 @@ package com.coffe_management_system.entity.item;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -17,5 +18,5 @@ public class ItemCategoryEntity {
     private Long id;
 
     private String name;
-    private Long storeId;
+    private Date createTime;
 }

@@ -1,6 +1,0 @@
-
-P
-java:S2209"5Change this instance-reference to a static reference.( Ã´ışÿÿÿÿ
-N	java:S106"9Replace this use of System.out or System.err by a logger.(ïüÜË
-~
-java:S1128"cRemove this unused import 'com.coffe_management_system.repository.customer.TypeCustomerRepository'.(Ø‰‹Áûÿÿÿÿ

@@ -7,7 +7,6 @@ public class ItemRequest {
     private Long id;
     private String name;
     private Long categoryId;
-    private String image;
     private Integer price;
 
 }

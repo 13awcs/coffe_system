@@ -5,6 +5,5 @@ public interface ItemResponseProjection {
     String getName();
     Long getCategoryId();
     String getCategoryName();
-    String getImage();
     Integer getPrice();
 }

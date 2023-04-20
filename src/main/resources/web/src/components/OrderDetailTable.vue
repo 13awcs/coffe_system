@@ -85,7 +85,7 @@
               size="is-large"
             />
           </p>
-          <p>Nothing's here&hellip;</p>
+          <p>Không có dữ liệu&hellip;</p>
         </div>
       </section>
     </b-table>

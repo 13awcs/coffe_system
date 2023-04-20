@@ -24,8 +24,18 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.saveCustomer(request));
     }
 
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<CustomerEntity> detail(@PathVariable Long id) {
+        return ResponseEntity.ok(customerRepository.findCustomerById(id));
+    }
+
     @GetMapping("/list")
     public ResponseEntity<List<CustomerEntity>> list() {
         return ResponseEntity.ok(customerRepository.findAll());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ServerResponseDto> delete(@PathVariable Long id) {
+        return ResponseEntity.ok(customerService.delete(id));
     }
 }

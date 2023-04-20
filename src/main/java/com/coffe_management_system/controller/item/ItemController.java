@@ -16,23 +16,22 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:8081")
-@RequestMapping("item/{storeId}")
+@RequestMapping("item")
 public class ItemController {
     private final ItemService itemService;
 
     @PostMapping("/save")
-    public ResponseEntity<ServerResponseDto> saveItem(@RequestBody ItemRequest request, @PathVariable Long storeId) {
-        return ResponseEntity.ok(itemService.saveItem(request, storeId));
+    public ResponseEntity<ServerResponseDto> saveItem(@RequestBody ItemRequest request) {
+        return ResponseEntity.ok(itemService.saveItem(request));
     }
 
     @GetMapping("/list")
     public ResponseEntity<Page<ItemResponseProjection>> getItems(@RequestParam(defaultValue = "1") int page,
                                                                  @RequestParam(defaultValue = "20") int size,
                                                                  @RequestParam(defaultValue = "name") String sortField,
-                                                                 @RequestParam(defaultValue = "desc") String sortDir,
-                                                                 @PathVariable Long storeId) {
+                                                                 @RequestParam(defaultValue = "desc") String sortDir) {
         Pageable pageable = PageUtil.getPage(sortDir, sortField, page, size);
-        return ResponseEntity.ok(itemService.getPageItems(storeId, pageable));
+        return ResponseEntity.ok(itemService.getPageItems(pageable));
     }
 
     @GetMapping("/{categoryId}/list-item")
@@ -40,16 +39,15 @@ public class ItemController {
                                                                              @RequestParam(defaultValue = "20") int size,
                                                                              @RequestParam(defaultValue = "name") String sortField,
                                                                              @RequestParam(defaultValue = "desc") String sortDir,
-                                                                             @PathVariable Long storeId,
                                                                              @PathVariable Long categoryId) {
         Pageable pageable = PageUtil.getPage(sortDir, sortField, page, size);
-        return ResponseEntity.ok(itemService.getPageItemsByCategoryId(storeId, categoryId,pageable));
+        return ResponseEntity.ok(itemService.getPageItemsByCategoryId(categoryId,pageable));
     }
 
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ServerResponseDto> detailItem (@PathVariable Long storeId, @PathVariable Long id) {
-        return ResponseEntity.ok(itemService.detailItem(storeId, id));
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<ServerResponseDto> detailItem (@PathVariable Long id) {
+        return ResponseEntity.ok(itemService.detailItem(id));
     }
 
     @DeleteMapping("/{id}")

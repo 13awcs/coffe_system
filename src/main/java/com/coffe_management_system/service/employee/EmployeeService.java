@@ -46,4 +46,9 @@ public class EmployeeService {
     public Page<EmployeeResponseProjection> getPageEmployee(Long storeId, Pageable pageable) {
         return employeeRepository.getPageEmployee(storeId, pageable);
     }
+
+    public ServerResponseDto delete(Long id) {
+        employeeRepository.deleteById(id);
+        return ServerResponseDto.SUCCESS;
+    }
 }

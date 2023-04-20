@@ -24,17 +24,24 @@ public class CustomerService {
         CustomerEntity entity = new CustomerEntity();
         if(id == null) {
             CustomerEntity fromDB = repository.save(entity.initInstance(request));
-            System.err.println(fromDB.getId());
             typeCustomerService.saveTypeCustomer(fromDB.getId());
         } else {
             Optional<CustomerEntity> optional = repository.findById(id);
             if(optional.isEmpty()) {
                 return ServerResponseDto.ERROR;
             }
+            entity.setId(request.getId());
+            entity.setName(request.getName());
+            entity.setPhone(request.getPhone());
+            entity.setPoint(optional.get().getPoint());
             entity.setCreateTime(optional.get().getCreateTime());
-            repository.save(entity.with(request));
-            typeCustomerService.saveTypeCustomer(entity.getId());
+            repository.save(entity);
         }
+        return ServerResponseDto.SUCCESS;
+    }
+
+    public ServerResponseDto delete(Long id) {
+        repository.deleteById(id);
         return ServerResponseDto.SUCCESS;
     }
 

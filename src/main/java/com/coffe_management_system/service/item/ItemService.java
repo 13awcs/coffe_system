@@ -22,27 +22,32 @@ public class ItemService {
     private final ItemRepository itemRepository;
 
     @Transactional
-    public ServerResponseDto saveItem(ItemRequest request, Long storeId) {
+    public ServerResponseDto saveItem(ItemRequest request) {
         Long itemId = request.getId();
         ItemEntity item = new ItemEntity();
         if(itemId == null) {
-            itemRepository.save(item.initInstance(request, storeId));
+            itemRepository.save(item.initInstance(request));
         } else {
             Optional<ItemEntity> itemOpt = itemRepository.findById(request.getId());
             if(itemOpt.isEmpty()) {
                 return ServerResponseDto.ERROR;
             }
-            itemRepository.save(item.with(request));
+            item.setId(request.getId());
+            item.setName(request.getName());
+            item.setCategoryId(request.getCategoryId());
+            item.setPrice(request.getPrice());
+            item.setCreateTime(itemOpt.get().getCreateTime());
+            itemRepository.save(item);
         }
         return ServerResponseDto.SUCCESS;
     }
 
-    public Page<ItemResponseProjection> getPageItems(Long storeId, Pageable pageable) {
-        return itemRepository.getPageItems(storeId, pageable);
+    public Page<ItemResponseProjection> getPageItems(Pageable pageable) {
+        return itemRepository.getPageItems(pageable);
     }
 
-    public Page<ItemInCategoryResponse> getPageItemsByCategoryId(Long storeId, Long categoryId, Pageable pageable) {
-        return itemRepository.getPageItemsByCategoryId(storeId, categoryId, pageable);
+    public Page<ItemInCategoryResponse> getPageItemsByCategoryId(Long categoryId, Pageable pageable) {
+        return itemRepository.getPageItemsByCategoryId(categoryId, pageable);
     }
 
     @Transactional
@@ -51,9 +56,9 @@ public class ItemService {
         return ServerResponseDto.SUCCESS;
     }
 
-    public ServerResponseDto detailItem(Long storeId, Long id) {
-        return itemRepository.findByStoreIdAndId(storeId, id)
-                .map(item -> ServerResponseDto.success(ItemResponse.fromEntity(storeId, item)))
+    public ServerResponseDto detailItem(Long id) {
+        return itemRepository.findById(id)
+                .map(item -> ServerResponseDto.success(ItemResponse.fromEntity(item)))
                 .orElse(ServerResponseDto.with(ResponseCase.NOT_FOUND));
     }
 

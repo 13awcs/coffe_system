@@ -15,14 +15,14 @@ export default [
   "Danh mục",
   [
     {
-      to: "/tables",
-      label: "Danh sách",
+      to: "/attendance",
+      label: "Bảng công",
       icon: "table",
       updateMark: true
     },
     {
       to: "/forms",
-      label: "Thông tin",
+      label: "Tài khoản nhân viên",
       icon: "square-edit-outline"
     },
     {
@@ -31,11 +31,11 @@ export default [
       icon: "view-list",
       menu: [
         {
-          href: "#void",
-          label: "Thêm đồ uống"
+          to: "/category",
+          label: "Loại đồ uống"
         },
         {
-          href: "#void",
+          to: "/item",
           label: "Danh sách đồ uống"
         }
       ]

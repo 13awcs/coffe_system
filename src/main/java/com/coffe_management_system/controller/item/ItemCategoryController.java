@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping("/category")
 public class ItemCategoryController {
     private final ItemCategoryService itemCategoryService;
@@ -16,6 +17,17 @@ public class ItemCategoryController {
     @PostMapping("/save")
     public ResponseEntity<ServerResponseDto> saveCategory(@RequestBody ItemCategoryRequest request) {
         return ResponseEntity.ok(itemCategoryService.saveItemCategory(request));
+    }
+
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<ServerResponseDto> detail(@PathVariable Long id) {
+        return ResponseEntity.ok(itemCategoryService.detail(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ServerResponseDto> delete(@PathVariable Long id) {
+        itemCategoryService.delete(id);
+        return ResponseEntity.ok(ServerResponseDto.SUCCESS);
     }
 
     @GetMapping("/list")

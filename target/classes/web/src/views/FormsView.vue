@@ -2,7 +2,7 @@
   <div>
     <title-bar :title-stack="titleStack"/>
     <hero-bar>
-      Thông tin
+      Tài khoản
       <router-link
         slot="right"
         class="button"
@@ -23,97 +23,53 @@
           >
             <b-field>
               <b-input
-                v-model="employeeRequest.name"
+                v-model="user.username"
+                icon="account"
+                name="username"
+                placeholder="Tên đăng nhập"
+                required
+              />
+            </b-field>
+
+          </b-field>
+          <b-field
+            horizontal
+            label="Tên"
+          >
+            <b-field>
+              <b-input
+                v-model="user.password"
                 icon="account"
                 name="name"
-                placeholder="Tên"
+                type="password"
+                placeholder="Mật khẩu"
                 required
               />
             </b-field>
-            <b-field>
-              <b-input
-                v-model="employeeRequest.email"
-                icon="email"
-                name="email"
-                placeholder="E-mail"
-                required
-                type="email"
-              />
-            </b-field>
+
           </b-field>
           <b-field
             horizontal
-            message="Không bắt đầu bằng số 0"
+            label="Nhân viên"
           >
-            <b-field>
-              <p class="control">
-                <a class="button is-static">
-                  +84
-                </a>
-              </p>
-              <b-input
-                v-model="employeeRequest.phone"
-                expanded
-                name="phone"
-                type="tel"
-              />
-            </b-field>
-          </b-field>
-
-          <b-field
-            horizontal
-            label="Địa chỉ"
-            message="Nhập địa chỉ"
-          >
-            <b-input
-              v-model="employeeRequest.address"
-              placeholder="Ví dụ: Hà Nội"
-              required
-            />
+            <select v-model="user.employeeId" style="width: 30%; height: 30px">
+              <option v-for="employee in employees" :value="employee.id">
+                {{ employee.name }}
+              </option>
+            </select>
           </b-field>
           <b-field
             horizontal
-            label="Ngày sinh"
+            label="Chức vụ"
           >
-            <b-datepicker v-model="employeeRequest.dob"
-                          :first-day-of-week="1"
-                          placeholder="Chọn ngày sinh...">
-
-            </b-datepicker>
+            <select v-model="user.role" style="width: 30%; height: 30px">
+              <option v-for="role in roles" :value="role.name">
+                {{ role.name }}
+              </option>
+            </select>
           </b-field>
-
         </form>
-      </card-component>
-      <card-component
-        icon="ballot-outline"
-        title="Thông tin ca làm việc"
-      >
-        <b-field
-          class="has-check"
-          horizontal
-          label="Ca"
-        >
-          <div v-for="shift in shifts">
-            <input  type="radio" id="shift" :value="shift.id" v-model="employeeRequest.shiftId" /> {{shift.name}}
-          </div>
-        </b-field>
-        <hr>
-        <b-field
-          class="has-check"
-          horizontal
-          label="Cơ sở cửa hàng"
-
-        >
-        <div v-for="store in stores">
-          <input  type="radio" id="store" :value="store.id" v-model="employeeRequest.storeId" /> {{store.name}}
-        </div>
-
-        </b-field>
-
-      </card-component>
-
-      <b-field horizontal>
-        <b-field grouped>
+        <b-field grouped class="group-btn-action">
           <div class="control">
             <b-button
               native-type="submit"
@@ -126,13 +82,14 @@
           <div class="control">
             <b-button
               type="is-info is-outlined"
-              @click.prevent="formAction"
+              @click="resetForm"
             >
               Xóa
             </b-button>
           </div>
         </b-field>
-      </b-field>
+      </card-component>
+
     </section>
   </div>
 </template>
@@ -157,19 +114,16 @@
     },
     data() {
       return {
-        titleStack: ["Admin", "Thông tin"],
+        titleStack: ["Admin", "Tài khoản nhân viên"],
         date: new Date(),
-        stores: [],
-        shifts: [],
-        employeeRequest: {
+        employees: [],
+        roles: [],
+        user: {
           id: '',
-          name: '',
-          dob: '',
-          address: '',
-          phone: '',
-          email: '',
-          shiftId: '',
-          storeId: '',
+          username: '',
+          password: '',
+          employeeId: '',
+          role: '',
         }
       };
     },
@@ -197,71 +151,78 @@
       );
       this.storeId = localStorage.getItem("storeId");
 
-      this.loadStore();
-      this.loadShift(this.storeId);
-      this.employeeRequest.storeId = this.stores[0].id;
-      this.employeeRequest.shiftId = this.shifts[0].id;
+      this.loadEmployee(this.storeId);
+      this.loadRole();
+      this.user.employeeId = this.employees[0].id;
+      this.user.role = this.roles[0].name;
     },
-    watch: {
-      storeId() {
-        this.employeeRequest.storeId = this.stores[0].id;
-        this.employeeRequest.shiftId = this.shifts[0].id;
-      }
-    },
+
     methods: {
-      loadStore() {
-        this.instance.get("/store/list")
+      loadEmployee(storeId) {
+        this.instance.get("/admin/employee/" + storeId + "/list")
           .then((response) => {
-            this.stores = response.data.data;
-            this.employeeRequest.storeId = this.stores[0].id
+            this.employees = response.data.content;
           })
           .catch((e) => {
             this.error.push(e);
           });
       },
 
-      loadShift(storeId) {
-        this.instance.get("admin/" + storeId + "/shift/list")
+      loadRole() {
+        this.instance.get("/role/list")
           .then((response) => {
-            this.shifts = response.data;
-            this.employeeRequest.shiftId = this.shifts[0].id;
+            this.roles = response.data;
           })
           .catch((e) => {
             this.error.push(e);
           });
       },
 
-      formAction() {
-        this.$buefy.snackbar.open({
-          message: "Demo only",
-          queue: false
+      submit() {
+        if (this.checkForm()) {
+          this.pause()
+        } else {
+          this.instance.post("/user/save", this.user)
+            .then((response) => {
+              if (response.data.status.code === 1000) {
+                this.resetForm();
+                this.$buefy.toast.open({
+                  message: 'Lưu thành công',
+                  type: 'is-success'
+                })
+              }
+            });
+        }
+      },
+
+      checkForm() {
+        if (this.user.username === "" || this.user.password === "" || this.user.employeeId === "" || this.user.role === "") {
+          return true;
+        }
+      },
+
+      pause() {
+        this.$buefy.notification.open({
+          message: `Vui lòng điền đầy đủ thông tin`,
+          type: "is-danger",
+          pauseOnHover: true,
         });
       },
 
-
-      submit() {
-        this.instance.post("/admin/employee/save", this.employeeRequest)
-          .then((response) => {
-            if (response.data.status.code === 1000) {
-              this.resetForm();
-              this.$buefy.toast.open({
-                message: 'Lưu thành công',
-                type: 'is-success'
-              })
-            }
-          });
-      },
-
       resetForm() {
-        this.employeeRequest.id = '',
-        this.employeeRequest.name = '',
-        this.employeeRequest.address = '',
-        this.employeeRequest.dob = '',
-        this.employeeRequest.phone = '',
-        this.employeeRequest.email = '',
-        this.employeeRequest.shiftId = '',
-        this.employeeRequest.storeId = ''
+        this.user.id = '',
+        this.user.username = '',
+        this.user.password = '',
+        this.user.employeeId = '',
+        this.user.role = ''
       }
     }
   });
 </script>
+
+<style>
+  .group-btn-action  {
+    margin-left: 18%;
+    margin-top: 35px;
+  }
+</style>
