@@ -1,6 +1,7 @@
 package com.coffe_management_system.controller.employee;
 
 import com.coffe_management_system.dto.ServerResponseDto;
+import com.coffe_management_system.dto.employee.AttendanceProjection;
 import com.coffe_management_system.dto.employee.EmployeeRequest;
 import com.coffe_management_system.dto.employee.EmployeeResponseProjection;
 import com.coffe_management_system.service.employee.EmployeeAttendanceService;
@@ -48,7 +49,12 @@ public class EmployeeController {
     }
 
     @GetMapping("/{storeId}/attendance/list")
-    public ResponseEntity<ServerResponseDto> detailEmployee(@PathVariable Long storeId) {
-        return ResponseEntity.ok(attendanceService.statisticAttendance(storeId));
+    public ResponseEntity<Page<AttendanceProjection>> detailEmployee(@RequestParam(defaultValue = "1") int page,
+                                                                     @RequestParam(defaultValue = "20") int size,
+                                                                     @RequestParam(defaultValue = "name") String sortField,
+                                                                     @RequestParam(defaultValue = "desc") String sortDir,
+                                                                     @PathVariable Long storeId) {
+        Pageable pageable = PageUtil.getPage(sortDir, sortField, page, size);
+        return ResponseEntity.ok(attendanceService.statisticAttendance(storeId, pageable));
     }
 }

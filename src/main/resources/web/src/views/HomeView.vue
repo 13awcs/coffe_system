@@ -94,6 +94,7 @@ import CardComponent from "@/components/CardComponent.vue";
 import LineChart from "@/components/Charts/LineChart.vue";
 import ClientsTableSample from "@/components/ClientsTableSample.vue";
 import NotificationBar from "@/components/NotificationBar.vue";
+import axios from "axios";
 
 export default defineComponent({
   name: "HomeView",
@@ -110,6 +111,8 @@ export default defineComponent({
   data () {
     return {
       titleStack: ["Admin", "Trang chủ"],
+      instance: '',
+      error: [],
       chartData: null,
       chartOptions: {
         responsive: true,
@@ -131,7 +134,28 @@ export default defineComponent({
     };
   },
   mounted () {
+    const baseDomain = "http://localhost:8080";
+
+    const baseURL = `${baseDomain}`;
+    this.instance = axios.create({
+      baseURL,
+    });
+    this.instance.interceptors.request.use(
+      (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+          config.headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        return config;
+      },
+
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
     this.fillChartData();
+    this.loadStore();
 
     this.$buefy.snackbar.open({
       message: "Welcome back",
@@ -141,7 +165,17 @@ export default defineComponent({
   methods: {
     fillChartData () {
       this.chartData = chartConfig.sampleChartData();
-    }
+    },
+    loadStore() {
+      this.instance.get("/store/list")
+        .then((response) => {
+          this.stores = response.data.data;
+          localStorage.setItem("stores", JSON.stringify(this.stores));
+        })
+        .catch((e) => {
+          this.error.push(e);
+        });
+    },
   }
 });
 </script>

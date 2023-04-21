@@ -2,94 +2,28 @@
   <div>
     <title-bar :title-stack="titleStack"/>
     <hero-bar>
-      Tài khoản
+      Bảng công
       <router-link
         slot="right"
         class="button"
         to="/"
       >
-        Thông tin
+        Thông tin chấm công
       </router-link>
     </hero-bar>
     <section class="section is-main-section">
+
       <card-component
-        icon="ballot"
-        title="Thông tin"
+        class="has-table has-mobile-sort-spaced"
+        title="Bảng chấm công"
+        icon="account"
       >
-        <form @submit.prevent="formAction">
-          <b-field
-            horizontal
-            label="Tên"
-          >
-            <b-field>
-              <b-input
-                v-model="user.username"
-                icon="account"
-                name="username"
-                placeholder="Tên đăng nhập"
-                required
-              />
-            </b-field>
-
-          </b-field>
-          <b-field
-            horizontal
-            label="Mật khẩu"
-          >
-            <b-field>
-              <b-input
-                v-model="user.password"
-                icon="account"
-                name="name"
-                type="password"
-                placeholder="Mật khẩu"
-                required
-              />
-            </b-field>
-
-          </b-field>
-          <b-field
-            horizontal
-            label="Nhân viên"
-          >
-            <select v-model="user.employeeId" style="width: 30%; height: 30px">
-              <option v-for="employee in employees" :value="employee.id">
-                {{ employee.name }}
-              </option>
-            </select>
-          </b-field>
-          <b-field
-            horizontal
-            label="Chức vụ"
-          >
-            <select v-model="user.role" style="width: 30%; height: 30px">
-              <option v-for="role in roles" :value="role.name">
-                {{ role.name }}
-              </option>
-            </select>
-          </b-field>
-        </form>
-        <b-field grouped class="group-btn-action">
-          <div class="control">
-            <b-button
-              native-type="submit"
-              type="is-info"
-              @click="submit"
-            >
-              Xác nhận
-            </b-button>
-          </div>
-          <div class="control">
-            <b-button
-              type="is-info is-outlined"
-              @click="resetForm"
-            >
-              Xóa
-            </b-button>
-          </div>
-        </b-field>
+        <attendance-table
+          checkable
+        />
       </card-component>
 
+      <hr>
     </section>
   </div>
 </template>
@@ -102,10 +36,12 @@
   import HeroBar from "@/components/HeroBar.vue";
   import CheckboxRadioPicker from "@/components/CheckboxRadioPicker.vue";
   import axios from "axios";
+  import AttendanceTable from "@/components/AttendanceTable";
 
   export default defineComponent({
-    name: "FormsView",
+    name: "AttendanceTableView",
     components: {
+      AttendanceTable,
       CheckboxRadioPicker,
       HeroBar,
       FilePicker,
@@ -114,7 +50,7 @@
     },
     data() {
       return {
-        titleStack: ["Admin", "Tài khoản nhân viên"],
+        titleStack: ["Admin", "Bảng chấm công"],
         date: new Date(),
         employees: [],
         roles: [],
@@ -211,10 +147,10 @@
 
       resetForm() {
         this.user.id = '',
-        this.user.username = '',
-        this.user.password = '',
-        this.user.employeeId = '',
-        this.user.role = ''
+          this.user.username = '',
+          this.user.password = '',
+          this.user.employeeId = '',
+          this.user.role = ''
       }
     }
   });

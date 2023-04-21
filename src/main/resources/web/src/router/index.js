@@ -32,6 +32,14 @@ const routes = [
   },
   {
     meta: {
+      title: "Bảng công"
+    },
+    path: "/attendance",
+    name: "attendance",
+    component: () => import(/* webpackChunkName: "tables" */ "@/views/AttendanceTableView.vue")
+  },
+  {
+    meta: {
       title: "Forms"
     },
     path: "/forms",

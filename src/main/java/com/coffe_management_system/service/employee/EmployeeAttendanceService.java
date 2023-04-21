@@ -1,10 +1,13 @@
 package com.coffe_management_system.service.employee;
 
 import com.coffe_management_system.dto.ServerResponseDto;
+import com.coffe_management_system.dto.employee.AttendanceProjection;
 import com.coffe_management_system.dto.employee.EmployeeAttendanceRequest;
 import com.coffe_management_system.entity.employee.EmployeeAttendanceEntity;
 import com.coffe_management_system.repository.employee.EmployeeAttendanceRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -41,7 +44,8 @@ public class EmployeeAttendanceService {
         return ServerResponseDto.SUCCESS;
     }
 
-    public ServerResponseDto statisticAttendance(Long storeId) {
-        return ServerResponseDto.success(repository.getListAttendance(storeId));
+    public Page<AttendanceProjection> statisticAttendance(Long storeId, Pageable pageable) {
+        System.err.println(repository.getPageAttendance(storeId, pageable));
+        return repository.getPageAttendance(storeId, pageable);
     }
 }

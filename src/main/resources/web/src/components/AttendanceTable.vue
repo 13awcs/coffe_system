@@ -127,11 +127,8 @@
           return Promise.reject(error);
         }
       );
-      this.loadItems();
-      this.loadCategories();
-      this.$root.$on("reloadItem", () => {
-        this.loadItems();
-      });
+      this.storeId = localStorage.getItem("storeId");
+      this.loadAttendance(this.storeId);
     },
 
     computed: {
@@ -142,10 +139,10 @@
 
     },
     methods: {
-      loadItems() {
-        this.instance.get("/item/list")
+      loadAttendance(storeId) {
+        this.instance.get("admin/employee/" + storeId + "/attendance/list")
           .then((response) => {
-            this.items = response.data.content;
+            this.attendances = response.data.content;
           })
           .catch((e) => {
             this.error.push(e);

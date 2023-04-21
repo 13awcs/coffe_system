@@ -2,10 +2,11 @@ package com.coffe_management_system.repository.employee;
 
 import com.coffe_management_system.dto.employee.AttendanceProjection;
 import com.coffe_management_system.entity.employee.EmployeeAttendanceEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
 
 public interface EmployeeAttendanceRepository extends JpaRepository<EmployeeAttendanceEntity, Long> {
 
@@ -14,11 +15,17 @@ public interface EmployeeAttendanceRepository extends JpaRepository<EmployeeAtte
             "where et.employee_id = ?1 and DATE_FORMAT(et.date, '%Y/%m/%d') = ?2", nativeQuery = true)
     EmployeeAttendanceEntity findByEmployeeIdAndDate(Long employeeId, String date);
 
-    @Query(value = "select em.name as name, et.date as date, et.check_in as checkin, et.check_out as checkout " +
+    @Query(value = "select em.name as name, s.name as shiftName, et.date as date, et.check_in as checkin, et.check_out as checkout " +
             "from employee em " +
             "join employee_attendance et on em.id = et.employee_id " +
+            "join shift s on em.shift_id = s.id " +
+            "where em.store_id = ?1 ",
+            countQuery = "select count(em.name, s.name, et.date, et.check_in, et.check_out) " +
+            "from employee em " +
+            "join employee_attendance et on em.id = et.employee_id " +
+            "join shift s on em.shift_id = s.id " +
             "where em.store_id = ?1 ", nativeQuery = true)
-    List<AttendanceProjection> getListAttendance(Long storeId);
+    Page<AttendanceProjection> getPageAttendance(Long storeId, Pageable pageable);
 
 
 }

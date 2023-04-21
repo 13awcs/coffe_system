@@ -121,7 +121,6 @@
         queue: false
       });
       this.storeId = localStorage.getItem("storeId")
-      this.loadStore();
       this.loadTable(this.storeId);
       this.$root.$on('reload', (storeId) => {
         this.loadTable(storeId);
@@ -131,16 +130,6 @@
     methods: {
       fillChartData() {
         this.chartData = chartConfig.sampleChartData();
-      },
-      loadStore() {
-        this.instance.get("/store/list")
-          .then((response) => {
-            this.stores = response.data.data;
-            localStorage.setItem("stores", JSON.stringify(this.stores));
-          })
-          .catch((e) => {
-            this.error.push(e);
-          });
       },
 
       loadTable(storeId) {

@@ -34,7 +34,7 @@
           </b-field>
           <b-field
             horizontal
-            label="Tên"
+            label="Mật khẩu"
           >
             <b-field>
               <b-input
