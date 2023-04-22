@@ -17,7 +17,7 @@
             icon="coffee"
             custom-size="default"
           />
-          <span style="font-weight: bold">Thủy Cà phê</span>
+          <span style="font-weight: bold">My coffe</span>
         </a>
       </notification-bar>
 
@@ -157,10 +157,6 @@ export default defineComponent({
     this.fillChartData();
     this.loadStore();
 
-    this.$buefy.snackbar.open({
-      message: "Welcome back",
-      queue: false
-    });
   },
   methods: {
     fillChartData () {

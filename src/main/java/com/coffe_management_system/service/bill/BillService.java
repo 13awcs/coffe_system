@@ -29,39 +29,44 @@ public class BillService {
     private final TableRepository tableRepository;
     private final TypeCustomerService typeCustomerService;
 
-    public ServerResponseDto saveBill(Long storeId, PaymentRequest request, String token) {
-        JwtTokenUtil j = new JwtTokenUtil();
-        Long employeeId = j.getUserId(token);
+    public ServerResponseDto saveBill(Long storeId, PaymentRequest request) {
+        BillEntity bill = new BillEntity();
+        Long employeeId = request.getEmployeeId();
+        Long customerId = request.getCustomerId();
+        Long orderId = request.getOrderId();
+        CustomerEntity customer;
+        customer = customerRepository.findCustomerById(customerId);
+        if (customerId == null) {
+            bill.setCustomerId(null);
+            bill.setDiscount(0.0);
+        } else {
+            bill.setCustomerId(request.getCustomerId());
+            TypeCustomerEntity typeCustomer = typeCustomerRepository.getDiscountByCustomerId(customerId);
+            bill.setDiscount(typeCustomer.getTypeCustomer().getValue());
+        }
+
         Integer finalPrice = orderItemRepository.getFinalPrice(request.getOrderId());
-        CustomerEntity customer = customerRepository.findCustomerById(request.getCustomerId());
+        bill.setOrderId(orderId);
+        bill.setEmployeeId(employeeId);
+        bill.setStoreId(storeId);
+        bill.setPaymentMethod(request.getPaymentMethod());
+        bill.setFinalPrice((finalPrice - (finalPrice * bill.getDiscount())) + finalPrice * 0.1);
+        bill.setCreateTime(new Date());
+        billRepository.save(bill);
 
-        TypeCustomerEntity typeCustomer = typeCustomerRepository.getDiscountByCustomerId(customer.getId());
-        TableResponseProjection tableFromDB = tableRepository.findByStoreIdAndOrderIdAndStatusIsFalse(storeId, request.getOrderId(), true);
-
-        BillEntity entity = new BillEntity();
-
-        entity.setOrderId(request.getOrderId());
-        entity.setCustomerId(request.getCustomerId());
-        entity.setEmployeeId(employeeId);
-        entity.setStoreId(storeId);
-        entity.setPaymentMethod(request.getPaymentMethod());
-        entity.setDiscount(typeCustomer.getTypeCustomer().getValue());
-        entity.setFinalPrice((finalPrice - (finalPrice * entity.getDiscount())) + finalPrice * 0.1);
-        entity.setCreateTime(new Date());
-        billRepository.save(entity);
-
+        TableResponseProjection tableFromDB = tableRepository.findByStoreIdAndOrderIdAndStatusIsFalse(storeId, orderId, true);
         TableEntity table = new TableEntity();
         table.setId(tableFromDB.getId());
         table.setName(tableFromDB.getName());
-        table.setStoreId(storeId);
-        table.setStatus(!tableFromDB.getIsStatus());
+        table.setStoreId(tableFromDB.getStoreId());
+        table.setStatus(!tableFromDB.isStatus());
         tableRepository.save(table);
 
-        if(entity.getFinalPrice() >= 50000 && entity.getFinalPrice() < 100000) {
+        if(bill.getFinalPrice() >= 50000 && bill.getFinalPrice() < 100000) {
             customer.setPoint(customer.getPoint() + 1);
-        } else if(entity.getFinalPrice() >= 100000) {
+        } else if(bill.getFinalPrice() >= 100000) {
             customer.setPoint(customer.getPoint() + 2);
-        } else if(entity.getFinalPrice() < 50000) {
+        } else if(bill.getFinalPrice() < 50000) {
             customer.setPoint(customer.getPoint());
         }
         customerRepository.save(customer);

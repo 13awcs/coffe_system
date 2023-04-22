@@ -21,7 +21,6 @@ public class OrderResponse {
         return OrderResponse.builder()
                 .id(entity.getId())
                 .note(entity.getNote())
-                .totalPrice(entity.getTotalPrice())
                 .tableId(entity.getTableId())
                 .status(entity.isStatus())
                 .build();

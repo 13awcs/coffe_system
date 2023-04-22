@@ -192,6 +192,7 @@
             >
               <b-datepicker v-model="employee.dob"
                             :first-day-of-week="1"
+                            size="is-small"
                             placeholder="Chọn ngày sinh...">
 
               </b-datepicker>
@@ -473,12 +474,12 @@
   .modal-card {
     margin-top: 100px !important;
     width: 1000px !important;
-    height: 720px !important;
+    height: 500px !important;
     padding: 25px !important;
   }
 
   .group-btn {
-    margin-top: 250px;
+    margin-top: 15px;
     position: absolute;
     right: 30px;
   }

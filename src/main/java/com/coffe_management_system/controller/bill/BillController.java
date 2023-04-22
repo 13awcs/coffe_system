@@ -18,9 +18,8 @@ public class BillController {
 
     @PostMapping("/save")
     public ResponseEntity<ServerResponseDto> saveBill(@PathVariable Long storeId,
-                                                      @RequestBody PaymentRequest request,
-                                                      @RequestHeader("Authorization") String token){
-        return ResponseEntity.ok(billService.saveBill(storeId, request, token));
+                                                      @RequestBody PaymentRequest request){
+        return ResponseEntity.ok(billService.saveBill(storeId, request));
     }
 
     @GetMapping("/history")

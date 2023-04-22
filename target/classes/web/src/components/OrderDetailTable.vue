@@ -32,7 +32,7 @@
       </b-table-column>
       <b-table-column
         v-slot="props"
-        label="Giá"
+        label="Đơn giá"
         field="price"
         sortable
       >
@@ -40,7 +40,7 @@
       </b-table-column>
       <b-table-column
         v-slot="props"
-        label="Đơn giá"
+        label="Thành tiền"
         field="unit-price"
         sortable
       >

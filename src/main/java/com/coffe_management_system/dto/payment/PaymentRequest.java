@@ -9,6 +9,7 @@ import javax.persistence.Convert;
 public class PaymentRequest {
     private Long orderId;
     private Long customerId;
+    private Long employeeId;
 
     @Convert(converter = PaymentMethod.Converter.class)
     private PaymentMethod paymentMethod;

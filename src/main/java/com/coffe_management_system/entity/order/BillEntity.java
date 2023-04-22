@@ -27,5 +27,6 @@ public class BillEntity {
 
     private Long employeeId;
     private Long storeId;
+    private boolean isHasCustomer;
     private Date createTime;
 }

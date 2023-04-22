@@ -2,7 +2,7 @@
   <div>
     <title-bar :title-stack="titleStack"/>
     <hero-bar :has-right-visible="false">
-      Dashboard
+      Order
     </hero-bar>
     <div class="row">
       <div class="col col-sm-4">
@@ -15,8 +15,9 @@
                         rounded
                         type="is-light"
                         v-model="numberTable.id"
-                        class="'numberTable.status' + ? + green-table : gray-table ''"
+                        class="table-status"
                         @click="detail(storeId, numberTable.id)"
+                        :class="numberTable.status === true ? 'busy-table' : 'free-table'"
               >
                 {{ numberTable.name }}
               </b-button>
@@ -116,10 +117,6 @@
       );
       this.fillChartData();
 
-      this.$buefy.snackbar.open({
-        message: "Welcome back",
-        queue: false
-      });
       this.storeId = localStorage.getItem("storeId")
       this.loadTable(this.storeId);
       this.$root.$on('reload', (storeId) => {
@@ -136,6 +133,7 @@
         this.instance.get("/admin/" + storeId + "/table/list")
           .then((response) => {
             this.listOrder = response.data.data;
+            console.log(this.listOrder[0].status);
           });
       },
 
@@ -248,6 +246,14 @@
     margin-top: 10px;
     position: absolute;
     right: 8%;
+  }
+
+  .busy-table {
+    background-color: #3ec487 !important;
+  }
+
+  .free-table {
+    background-color: darkgray !important;
   }
 
 </style>

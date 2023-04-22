@@ -71,7 +71,7 @@ public class AuthController {
 
         }
 
-            User user = userService.getByUsername(request.getUsername());
+        User user = userService.getByUsername(request.getUsername());
 
         if (user == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             return ResponseEntity.ok(ServerResponseDto.error("Username or password is wrong"));
@@ -83,9 +83,10 @@ public class AuthController {
         String accessToken = jwtTokenUtil.generateAccessToken(user);
         String refreshToken = jwtTokenUtil.generateRefreshToken(user);
 
-        JwtTokenUtil j = new JwtTokenUtil();
-        Long employeeId = j.getUserId(accessToken);
+        JwtTokenUtil jwtUtil = new JwtTokenUtil();
+        Long userId = jwtUtil.getUserId(accessToken);
 
+        Long employeeId = user.getEmployeeId();
         EmployeeAttendanceRequest attendanceRequest = new EmployeeAttendanceRequest();
         String pattern = "yyyy/MM/dd";
         String date = new SimpleDateFormat(pattern).format(new Date());
@@ -94,8 +95,11 @@ public class AuthController {
 
         attendanceService.save(attendanceRequest);
 
+        System.err.println(employeeId);
+
         Optional<EmployeeEntity> employee = employeeRepository.findById(employeeId);
         if (employee.isEmpty()) {
+            System.err.println("vao day");
             return ResponseEntity.ok(ServerResponseDto.ERROR);
         }
 

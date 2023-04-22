@@ -30,7 +30,7 @@ public class OrderService {
     private final TableRepository tableRepository;
 
     @Transactional
-    public ServerResponseDto saveOrder(OrderRequest request) {
+    public ServerResponseDto saveOrder(Long storeId, OrderRequest request) {
         List<ItemRequestForOrder> itemRequestForOrders = request.getListItemRequest();
         if (CollectionUtils.isEmpty(itemRequestForOrders)) {
             return ServerResponseDto.error("List itemRequest is empty");
@@ -38,16 +38,21 @@ public class OrderService {
         Long tableId = request.getTableId();
         boolean isCreateNew = request.getId() == null;
         OrderEntity order;
+
         if (isCreateNew) {
-            order = OrderEntity.initInstance(request);
+            order = OrderEntity.initInstance(storeId, request);
+        } else {
+            Optional<OrderEntity> orderOpt = orderRepository.findById(request.getId());
+            if (orderOpt.isEmpty()) {
+                return ServerResponseDto.ERROR;
+            }
+            order = orderOpt.get();
+            order.setEmployeeId(request.getEmployeeId());
+            order.setNote(request.getNote());
         }
-        Optional<OrderEntity> orderOpt = orderRepository.findById(request.getId());
-        if (orderOpt.isEmpty()) {
-            return ServerResponseDto.ERROR;
-        }
-        order = orderOpt.get();
-        order.setEmployeeId(request.getEmployeeId());
-        order.setNote(request.getNote());
+        orderRepository.save(order);
+
+        orderItemService.saveOrderItem(order.getId(), request.getListItemRequest());
 
 
 //        Optional<TableEntity> tableOpt = tableRepository.findById(tableId);
@@ -140,7 +145,6 @@ public class OrderService {
         entity.setId(optional.get().getId());
         entity.setNote(optional.get().getNote());
         entity.setTableId(optional.get().getTableId());
-        entity.setTotalPrice(optional.get().getTotalPrice());
         entity.setEmployeeId(optional.get().getEmployeeId());
         entity.setCreateTime(optional.get().getCreateTime());
         entity.setStatus(optional.get().isStatus());

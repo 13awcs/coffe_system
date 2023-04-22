@@ -21,19 +21,19 @@ public class OrderEntity {
 
     private String note;
     private Long tableId;
-    private Double totalPrice;
     private Long employeeId;
     private Date createTime;
     private boolean status = false;
     private Long storeId;
     private boolean isPaid = false;
 
-    public static OrderEntity initInstance(OrderRequest request) {
+    public static OrderEntity initInstance(Long storeId, OrderRequest request) {
         OrderEntity entity =  OrderEntity.builder()
                 .id(request.getId())
                 .note(request.getNote())
                 .employeeId(request.getEmployeeId())
                 .tableId(request.getTableId())
+                .storeId(storeId)
                 .build();
         final Date now = new Date();
         entity.setCreateTime(now);

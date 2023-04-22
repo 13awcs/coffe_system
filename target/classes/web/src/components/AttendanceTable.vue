@@ -24,6 +24,14 @@
       </b-table-column>
       <b-table-column
         v-slot="props"
+        label="Ca làm việc"
+        field="shift"
+        sortable
+      >
+        {{ props.row.shift }}
+      </b-table-column>
+      <b-table-column
+        v-slot="props"
         label="Ngày"
         field="date"
         sortable
@@ -134,7 +142,7 @@
     computed: {
 
       paginated() {
-        return this.items.length > this.perPage;
+        return this.attendances.length > this.perPage;
       },
 
     },

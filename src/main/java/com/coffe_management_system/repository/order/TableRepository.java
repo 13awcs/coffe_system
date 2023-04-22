@@ -12,7 +12,7 @@ public interface TableRepository extends JpaRepository<TableEntity, Long> {
 
     Optional<TableEntity> findByStoreIdAndId(Long storeId, Long tableId);
 
-    @Query(value = "select t.id as id, t.name as name, t.status as isStatus from TableEntity t " +
+    @Query(value = "select t.id as id, t.name as name,t.storeId as storeId, t.status as status from TableEntity t " +
             "join OrderEntity o on t.id = o.tableId " +
             "where o.storeId = ?1 and o.id = ?2 and t.status = ?3 ")
     TableResponseProjection findByStoreIdAndOrderIdAndStatusIsFalse(Long storeId, Long orderId, boolean status);

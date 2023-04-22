@@ -8,19 +8,29 @@ import com.coffe_management_system.repository.customer.TypeCustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class TypeCustomerService {
     private final TypeCustomerRepository repository;
+    private final TypeCustomerRepository typeCustomerRepository;
     private final CustomerRepository customerRepository;
 
     public void saveTypeCustomer(Long customerId) {
         CustomerEntity customer = customerRepository.findCustomerById(customerId);
         TypeCustomer typeCustomer = setTypeCustomer(customer);
-        TypeCustomerEntity entity = new TypeCustomerEntity();
-        entity.setCustomerId(customerId);
-        entity.setTypeCustomer(typeCustomer);
-        repository.save(entity);
+        TypeCustomerEntity typeCustomerEntity = new TypeCustomerEntity();
+        Optional<TypeCustomerEntity> typeCustomerOpt = typeCustomerRepository.findByCustomerId(customerId);
+        if (typeCustomerOpt.isEmpty()) {
+            typeCustomerEntity.setCustomerId(customerId);
+            typeCustomerEntity.setTypeCustomer(typeCustomer);
+        } else {
+            typeCustomerEntity.setId(typeCustomerOpt.get().getId());
+            typeCustomerEntity.setCustomerId(customerId);
+            typeCustomerEntity.setTypeCustomer(typeCustomer);
+        }
+        repository.save(typeCustomerEntity);
     }
 
     public TypeCustomer setTypeCustomer(CustomerEntity entity) {

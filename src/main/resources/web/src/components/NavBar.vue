@@ -190,6 +190,11 @@
       },
       logout() {
         router.push("/login");
+        localStorage.removeItem("token")
+        localStorage.removeItem("storeId")
+        localStorage.removeItem("username")
+        localStorage.removeItem("stores")
+        localStorage.removeItem("name")
         this.$buefy.snackbar.open({
           message: "Log out clicked",
           queue: false

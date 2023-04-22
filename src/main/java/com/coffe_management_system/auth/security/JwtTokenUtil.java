@@ -15,23 +15,23 @@ import java.util.List;
 @Component
 public class JwtTokenUtil {
 
-    @Value("${bactv.jwtsecret}")
-    private String bactvJwtSecret;
+    @Value("${key.jwtsecret}")
+    private String keyJwtSecret;
 
-    @Value("${bactv.jwtissuer}")
-    private String bactvJwtIssuer;
+    @Value("${key.jwtissuer}")
+    private String keyJwtIssuer;
 
 
     @PostConstruct
     void print(){
-        System.err.println(bactvJwtSecret+bactvJwtIssuer);
+        System.err.println(keyJwtSecret+keyJwtIssuer);
     }
     //todo: move this to application.properties to make it dynamic in multiple env
 //    private final String jwtSecret = "CctlD5JL16m8wLTgsFNhzqjQP";
 //    private final String jwtIssuer = "coder4.life";
 
     public String generateAccessToken(User user) {
-        Algorithm algorithm = Algorithm.HMAC512(bactvJwtSecret.getBytes());
+        Algorithm algorithm = Algorithm.HMAC512(keyJwtSecret.getBytes());
 
         List<String> authorities = new ArrayList<>();
         authorities.add(user.getRole());
@@ -39,18 +39,18 @@ public class JwtTokenUtil {
 
         return JWT.create()
                 .withSubject(String.format("%s,%s", user.getId(), user.getUsername()))
-                .withIssuer(bactvJwtIssuer)
+                .withIssuer(keyJwtIssuer)
                 .withClaim("roles", authorities)
                 .withExpiresAt(new Date(System.currentTimeMillis() + 5 * 60 * 100000))
                 .sign(algorithm);
     }
 
     public String generateRefreshToken(User user) {
-        Algorithm algorithm = Algorithm.HMAC512(bactvJwtSecret.getBytes());
+        Algorithm algorithm = Algorithm.HMAC512(keyJwtSecret.getBytes());
 
         return JWT.create()
                 .withSubject(String.format("%s,%s", user.getId(), user.getUsername()))
-                .withIssuer(bactvJwtIssuer)
+                .withIssuer(keyJwtIssuer)
                 .withExpiresAt(new Date(System.currentTimeMillis() + 60 * 60 * 1000))
                 .sign(algorithm);
     }
