@@ -54,6 +54,17 @@ public class OrderService {
 
         orderItemService.saveOrderItem(order.getId(), request.getListItemRequest());
 
+        Optional<TableEntity> tableOpt = tableRepository.findById(tableId);
+        if(tableOpt.isEmpty()) {
+            return ServerResponseDto.ERROR;
+        }
+        TableEntity table = tableOpt.get();
+        if (table.isStatus()) {
+            table.setStatus(tableOpt.get().isStatus());
+        }
+        table.setStatus(!tableOpt.get().isStatus());
+        tableRepository.save(table);
+
 
 //        Optional<TableEntity> tableOpt = tableRepository.findById(tableId);
 //        if(tableOpt.isEmpty()) {
