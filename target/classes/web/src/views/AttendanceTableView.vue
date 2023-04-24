@@ -3,13 +3,7 @@
     <title-bar :title-stack="titleStack"/>
     <hero-bar>
       Bảng công
-      <router-link
-        slot="right"
-        class="button"
-        to="/"
-      >
-        Thông tin chấm công
-      </router-link>
+
     </hero-bar>
     <section class="section is-main-section">
 

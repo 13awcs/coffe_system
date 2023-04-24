@@ -371,6 +371,7 @@
     width: 1000px !important;
     height: 450px !important;
     padding: 25px !important;
+    overflow: scroll;
   }
 
   .group-btn-customer {

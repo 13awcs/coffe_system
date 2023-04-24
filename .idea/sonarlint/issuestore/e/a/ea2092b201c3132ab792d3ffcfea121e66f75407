@@ -1,0 +1,12 @@
+
+l
+java:S3655‘"PCall "optional.isPresent()" or "!optional.isEmpty()" before accessing the value.(±¬ãºþÿÿÿÿ
+P
+java:S1854&";Remove this useless assignment to local variable "tableId".(ïÛŸX
+A
+java:S1481&",Remove this unused "tableId" local variable.(ïÛŸX
+Q	java:S125:"<This block of commented-out lines of code should be removed.(Ž•á
+Q	java:S125D"<This block of commented-out lines of code should be removed.(°± 
+s
+java:S1128
+"QRemove this unused import 'com.coffe_management_system.entity.order.TableEntity'.(­¼¡ÿþÿÿÿÿ8äêÈû0

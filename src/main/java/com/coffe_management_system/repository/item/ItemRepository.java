@@ -16,7 +16,7 @@ import java.util.Optional;
 @Repository
 public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
 
-    @Query(value = "select i.id as id, i.name as name, i.category_id as categoryId, c.name as categoryName, i.price as price " +
+    @Query(value = "select i.id as id, i.name as name, i.category_id as categoryId, c.name as categoryName, i.price as price, i.create_time as createTime " +
             "from item i " +
             "join item_category c on i.category_id = c.id ",nativeQuery = true)
     Page<ItemResponseProjection> getPageItems(Pageable pageable);

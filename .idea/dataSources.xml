@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="coffe_management_system@localhost" uuid="64e479bf-a92e-4e51-bb04-1035e05a6c3f">
+    <data-source source="LOCAL" name="coffe_management_system@localhost" uuid="3f3b9e9e-947f-4564-9c08-62db9ffe629b">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/coffe_management_system</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
+      <driver-properties>
+        <property name="useUnicode" value="true" />
+      </driver-properties>
     </data-source>
   </component>
 </project>

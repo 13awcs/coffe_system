@@ -155,6 +155,9 @@
       this.loadRole();
       this.user.employeeId = this.employees[0].id;
       this.user.role = this.roles[0].name;
+      this.$on('reloadEm', (storeId) => {
+        this.loadEmployee(storeId);
+      })
     },
 
     methods: {

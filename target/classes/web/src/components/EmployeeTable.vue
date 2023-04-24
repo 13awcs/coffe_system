@@ -313,18 +313,18 @@
       this.loadShift(this.storeId);
       this.employee.storeId = this.stores[0].id;
       this.employee.shiftId = this.shifts[0].id;
-      this.$root.$on("load", () => {
-        this.loadEmployee();
-      });
+
+      this.$root.on('load', () => {
+        this.loadEmployee(this.storeId);
+      })
     },
 
     computed: {
-
       paginated() {
         return this.employees.length > this.perPage;
       },
-
     },
+
     methods: {
       loadEmployee(storeId) {
         this.instance.get("/admin/employee/" + storeId + "/list")
@@ -476,6 +476,7 @@
     width: 1000px !important;
     height: 500px !important;
     padding: 25px !important;
+    overflow: scroll;
   }
 
   .group-btn {

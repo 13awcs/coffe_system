@@ -18,12 +18,7 @@
         <b-icon icon="menu"/>
       </a>
       <div class="navbar-item has-control no-left-space-touch no-left-space-desktop-only">
-        <div class="control">
-          <input
-            class="input"
-            placeholder="Search everywhere..."
-          >
-        </div>
+
       </div>
     </div>
     <div class="navbar-brand is-right">
@@ -56,44 +51,6 @@
             <span>{{ name }}</span>
           </div>
 
-          <div
-            slot="dropdown"
-            class="navbar-dropdown"
-          >
-            <router-link
-              to="/profile"
-              class="navbar-item"
-              exact-active-class="is-active"
-            >
-              <b-icon
-                icon="account"
-                custom-size="default"
-              />
-              <span>My Profile</span>
-            </router-link>
-            <a class="navbar-item">
-              <b-icon
-                icon="settings"
-                custom-size="default"
-              />
-              <span>Settings</span>
-            </a>
-            <a class="navbar-item">
-              <b-icon
-                icon="email"
-                custom-size="default"
-              />
-              <span>Messages</span>
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item">
-              <b-icon
-                icon="logout"
-                custom-size="default"
-              />
-              <span>Log Out</span>
-            </a>
-          </div>
         </nav-bar-menu>
         <a
           class="navbar-item is-desktop-icon-only"
@@ -131,7 +88,8 @@
         name: "",
         stores: [],
         selected: '',
-        storeName: ''
+        storeName: '',
+        instance: '',
       };
     },
     computed: {
@@ -153,6 +111,26 @@
         },
     },
     mounted() {
+      const baseDomain = "http://localhost:8080";
+
+      const baseURL = `${baseDomain}`;
+      this.instance = axios.create({
+        baseURL,
+      });
+      this.instance.interceptors.request.use(
+        (config) => {
+          const token = localStorage.getItem('token');
+          if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+          }
+
+          return config;
+        },
+
+        (error) => {
+          return Promise.reject(error);
+        }
+      );
       this.name = localStorage.getItem("name");
       this.stores = JSON.parse(localStorage.getItem("stores"));
       this.selected = this.stores[0]
@@ -162,22 +140,11 @@
       // this.loadStore();
     },
     methods: {
-      // loadStore() {
-      //   let token = localStorage.getItem("token");
-      //   console.log("token", token);
-      //   axios.get("http://localhost:8080/store/list", {
-      //     header: {
-      //       Authorization: `Bearer ${token}`,
-      //       token: localStorage.getItem("token")
-      //     }
-      //   })
-      //     .then((response) => {
-      //       console.log("store", response);
-      //       this.stores = response.data.data;
-      //     });
-      // },
+
       reloadData() {
         this.$root.$emit('reload', this.selected.id)
+        this.$root.$emit('reloadEmForTable', this.selected.id)
+        this.$root.$emit('reloadAttendance', this.selected.id)
       },
       asideToggleMobile() {
         this.$store.commit("asideMobileStateToggle");
@@ -189,16 +156,29 @@
         this.isMenuActive = !this.isMenuActive;
       },
       logout() {
-        router.push("/login");
-        localStorage.removeItem("token")
-        localStorage.removeItem("storeId")
-        localStorage.removeItem("username")
-        localStorage.removeItem("stores")
-        localStorage.removeItem("name")
-        this.$buefy.snackbar.open({
-          message: "Log out clicked",
-          queue: false
-        });
+        const token = localStorage.getItem('token');
+        this.instance.post("/auth/logout?token=" + token)
+          .then((response) => {
+            if (response.data.status.code === 1000) {
+              router.push("/");
+              localStorage.removeItem("token")
+              localStorage.removeItem("storeId")
+              localStorage.removeItem("username")
+              localStorage.removeItem("stores")
+              localStorage.removeItem("name")
+            } else {
+              this.$buefy.notification.open({
+                message: `Đăng xuất thất bại`,
+                type: "is-danger",
+                pauseOnHover: true,
+              });
+            }
+          })
+          .catch((e) => {
+            this.error.push(e);
+          });
+
+
       }
     }
   });

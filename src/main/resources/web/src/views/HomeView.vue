@@ -167,6 +167,7 @@ export default defineComponent({
         .then((response) => {
           this.stores = response.data.data;
           localStorage.setItem("stores", JSON.stringify(this.stores));
+          localStorage.setItem("storeId", JSON.stringify(this.stores[0].id));
         })
         .catch((e) => {
           this.error.push(e);

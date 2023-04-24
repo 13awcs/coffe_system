@@ -38,7 +38,7 @@ public class JwtTokenUtil {
 
 
         return JWT.create()
-                .withSubject(String.format("%s,%s", user.getId(), user.getUsername()))
+                .withSubject(String.format("%s,%s,%s", user.getId(), user.getUsername(), user.getEmployeeId()))
                 .withIssuer(keyJwtIssuer)
                 .withClaim("roles", authorities)
                 .withExpiresAt(new Date(System.currentTimeMillis() + 5 * 60 * 100000))
@@ -49,7 +49,7 @@ public class JwtTokenUtil {
         Algorithm algorithm = Algorithm.HMAC512(keyJwtSecret.getBytes());
 
         return JWT.create()
-                .withSubject(String.format("%s,%s", user.getId(), user.getUsername()))
+                .withSubject(String.format("%s,%s,%s", user.getId(), user.getUsername(), user.getEmployeeId()))
                 .withIssuer(keyJwtIssuer)
                 .withExpiresAt(new Date(System.currentTimeMillis() + 60 * 60 * 1000))
                 .sign(algorithm);
@@ -80,6 +80,12 @@ public class JwtTokenUtil {
         String tokenAfter = token.replace("Bearer ", "");
         String subject = JWT.decode(tokenAfter).getSubject();
         return Long.valueOf(subject.split(",")[0]);
+    }
+
+    public Long getEmployeeId(String token) {
+        String tokenAfter = token.replace("Bearer ", "");
+        String subject = JWT.decode(tokenAfter).getSubject();
+        return Long.valueOf(subject.split(",")[2]);
     }
 
 }

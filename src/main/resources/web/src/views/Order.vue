@@ -31,7 +31,6 @@
         <div class="card shadow mb-4">
           <div class="card-header py-3">
             Chi tiết order
-            <b-button style="margin-left: 65%" type="is-success">Thêm món</b-button>
           </div>
 
           <div class="detail-order">
@@ -42,7 +41,6 @@
             </order-detail-table>
           </div>
         </div>
-        <b-button class="btn-payment" type="is-danger">Thanh toán</b-button>
       </div>
     </div>
 
@@ -121,6 +119,7 @@
       this.loadTable(this.storeId);
       this.$root.$on('reload', (storeId) => {
         this.loadTable(storeId);
+        this.detailData = []
       })
     },
 
@@ -133,7 +132,6 @@
         this.instance.get("/admin/" + storeId + "/table/list")
           .then((response) => {
             this.listOrder = response.data.data;
-            console.log(this.listOrder[0].status);
           });
       },
 

@@ -10,7 +10,6 @@
       :paginated="paginated"
       :per-page="perPage"
       :data="attendances"
-      default-sort="name"
       striped
       hoverable
     >
@@ -18,7 +17,6 @@
         v-slot="props"
         label="Tên nhân viên"
         field="name"
-        sortable
       >
         {{ props.row.name }}
       </b-table-column>
@@ -26,7 +24,6 @@
         v-slot="props"
         label="Ca làm việc"
         field="shift"
-        sortable
       >
         {{ props.row.shift }}
       </b-table-column>
@@ -34,25 +31,22 @@
         v-slot="props"
         label="Ngày"
         field="date"
-        sortable
       >
-        {{ props.row.date }}
+        {{ props.row.date.split(" ")[0] }}
       </b-table-column>
       <b-table-column
         v-slot="props"
         label="Giờ đến"
         field="checkin"
-        sortable
       >
-        {{ props.row.checkin }}
+        {{ props.row.checkin.split(" ")[1] }}
       </b-table-column>
       <b-table-column
         v-slot="props"
         label="Giờ về"
         field="checkout"
-        sortable
       >
-        {{ props.row.checkout }}
+        {{ props.row.checkout.split(" ")[1] }}
       </b-table-column>
 
       <section
@@ -137,6 +131,9 @@
       );
       this.storeId = localStorage.getItem("storeId");
       this.loadAttendance(this.storeId);
+      this.$root.$on('reloadAttendance', (storeId) => {
+        this.loadAttendance(storeId);
+      })
     },
 
     computed: {

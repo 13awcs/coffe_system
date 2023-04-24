@@ -50,9 +50,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/{storeId}/attendance/list")
-    public ResponseEntity<Page<AttendanceDto>> detailEmployee(@RequestParam(defaultValue = "1") int page,
+    public ResponseEntity<Page<AttendanceDto>> getPageAttendance(@RequestParam(defaultValue = "1") int page,
                                                               @RequestParam(defaultValue = "20") int size,
-                                                              @RequestParam(defaultValue = "name") String sortField,
+                                                              @RequestParam(defaultValue = "date") String sortField,
                                                               @RequestParam(defaultValue = "desc") String sortDir,
                                                               @PathVariable Long storeId) {
         Pageable pageable = PageUtil.getPage(sortDir, sortField, page, size);

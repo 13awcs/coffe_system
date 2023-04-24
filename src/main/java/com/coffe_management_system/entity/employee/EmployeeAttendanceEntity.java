@@ -22,5 +22,4 @@ public class EmployeeAttendanceEntity {
     private Long employeeId;
     private Date checkIn;
     private Date checkOut;
-    private long totalHour;
 }

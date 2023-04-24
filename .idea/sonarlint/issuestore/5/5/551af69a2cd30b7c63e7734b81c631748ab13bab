@@ -1,0 +1,10 @@
+
+e
+java:S1192I"HDefine a constant instead of duplicating this literal "Bearer " 3 times.(Êµ•¯8ãú•‹û0
+N	java:S106"9Replace this use of System.out or System.err by a logger.(¬öº­
+V	java:S125"<This block of commented-out lines of code should be removed.(Õ ÇÔûÿÿÿÿ
+M
+java:S1135"2Complete the task associated to this TODO comment.(ëÓï€ýÿÿÿÿ
+N	java:S106B"9Replace this use of System.out or System.err by a logger.(±¼ÉÜ
+M
+java:S1135A"2Complete the task associated to this TODO comment.(ëþ®Ïýÿÿÿÿ

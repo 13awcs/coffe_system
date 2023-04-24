@@ -12,6 +12,7 @@ import com.coffe_management_system.auth.security.JwtTokenUtil;
 import com.coffe_management_system.auth.service.UserService;
 import com.coffe_management_system.dto.ServerResponseDto;
 import com.coffe_management_system.dto.employee.EmployeeAttendanceRequest;
+import com.coffe_management_system.entity.employee.EmployeeAttendanceEntity;
 import com.coffe_management_system.entity.employee.EmployeeEntity;
 import com.coffe_management_system.repository.employee.EmployeeAttendanceRepository;
 import com.coffe_management_system.repository.employee.EmployeeRepository;
@@ -45,6 +46,8 @@ public class AuthController {
     private final BCryptPasswordEncoder passwordEncoder;
 
     private final EmployeeRepository employeeRepository;
+
+    private final EmployeeAttendanceRepository employeeAttendanceRepository;
 
     @PostMapping("login")
     public ResponseEntity<ServerResponseDto> login(@RequestBody LoginDto request) {
@@ -83,9 +86,6 @@ public class AuthController {
         String accessToken = jwtTokenUtil.generateAccessToken(user);
         String refreshToken = jwtTokenUtil.generateRefreshToken(user);
 
-        JwtTokenUtil jwtUtil = new JwtTokenUtil();
-        Long userId = jwtUtil.getUserId(accessToken);
-
         Long employeeId = user.getEmployeeId();
         EmployeeAttendanceRequest attendanceRequest = new EmployeeAttendanceRequest();
         String pattern = "yyyy/MM/dd";
@@ -93,19 +93,15 @@ public class AuthController {
         attendanceRequest.setDate(date);
         attendanceRequest.setEmployeeId(employeeId);
 
-        attendanceService.save(attendanceRequest);
-
-        System.err.println(employeeId);
+        attendanceService.save(attendanceRequest, true);
 
         Optional<EmployeeEntity> employee = employeeRepository.findById(employeeId);
         if (employee.isEmpty()) {
-            System.err.println("vao day");
             return ResponseEntity.ok(ServerResponseDto.ERROR);
         }
 
         Long storeId = employee.get().getStoreId();
         String name = employee.get().getName();
-
 
         LoginResponse response = new LoginResponse();
         response.setEmployeeId(employeeId);
@@ -148,7 +144,7 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<ServerResponseDto> logout(@RequestParam String token) {
         JwtTokenUtil jwt = new JwtTokenUtil();
-        Long employeeId = jwt.getUserId(token);
+        Long employeeId = jwt.getEmployeeId(token);
 
         EmployeeAttendanceRequest attendanceRequest = new EmployeeAttendanceRequest();
         String pattern = "yyyy/MM/dd";
@@ -157,7 +153,7 @@ public class AuthController {
         attendanceRequest.setEmployeeId(employeeId);
         attendanceRequest.setCheckOut(new Date());
 
-        attendanceService.save(attendanceRequest);
+        attendanceService.save(attendanceRequest, false);
         return ResponseEntity.ok(ServerResponseDto.SUCCESS);
     }
 

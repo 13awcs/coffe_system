@@ -7,16 +7,19 @@ import com.coffe_management_system.dto.table.TableResponseProjection;
 import com.coffe_management_system.entity.customer.CustomerEntity;
 import com.coffe_management_system.entity.customer.TypeCustomerEntity;
 import com.coffe_management_system.entity.order.BillEntity;
+import com.coffe_management_system.entity.order.OrderEntity;
 import com.coffe_management_system.entity.order.TableEntity;
 import com.coffe_management_system.repository.bill.BillRepository;
 import com.coffe_management_system.repository.customer.CustomerRepository;
 import com.coffe_management_system.repository.customer.TypeCustomerRepository;
 import com.coffe_management_system.repository.order.OrderItemRepository;
+import com.coffe_management_system.repository.order.OrderRepository;
 import com.coffe_management_system.repository.order.TableRepository;
 import com.coffe_management_system.service.customer.TypeCustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class BillService {
 
     private final BillRepository billRepository;
     private final OrderItemRepository orderItemRepository;
+    private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
     private final TypeCustomerRepository typeCustomerRepository;
     private final TableRepository tableRepository;
@@ -53,6 +57,14 @@ public class BillService {
         bill.setFinalPrice((finalPrice - (finalPrice * bill.getDiscount())) + finalPrice * 0.1);
         bill.setCreateTime(new Date());
         billRepository.save(bill);
+
+        Optional<OrderEntity> orderOpt = orderRepository.findById(orderId);
+        OrderEntity order = orderOpt.get();
+        if (orderOpt.isEmpty()) {
+            return ServerResponseDto.ERROR;
+        }
+        order.setPaid(!order.isPaid());
+        orderRepository.save(order);
 
         TableResponseProjection tableFromDB = tableRepository.findByStoreIdAndOrderIdAndStatusIsFalse(storeId, orderId, true);
         TableEntity table = new TableEntity();

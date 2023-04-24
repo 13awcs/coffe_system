@@ -18,35 +18,40 @@ import java.util.Date;
 public class EmployeeAttendanceService {
     private final EmployeeAttendanceRepository repository;
 
-    public ServerResponseDto save(EmployeeAttendanceRequest request) {
+    public ServerResponseDto save(EmployeeAttendanceRequest request, boolean isLogin) {
         Long employeeId = request.getEmployeeId();
         String date = request.getDate();
         EmployeeAttendanceEntity entityToSave = new EmployeeAttendanceEntity();
         EmployeeAttendanceEntity entityFromDB = repository.findByEmployeeIdAndDate(employeeId, date);
-        if(entityFromDB == null) {
-            entityToSave.setDate(date);
-            entityToSave.setEmployeeId(request.getEmployeeId());
-            entityToSave.setCheckIn(new Date());
-        }
-        else {
+        if (isLogin) {
+            if(entityFromDB == null) {
+                entityToSave.setDate(date);
+                entityToSave.setEmployeeId(request.getEmployeeId());
+                entityToSave.setCheckIn(new Date());
+            }
+            else {
+                entityToSave.setDate(entityFromDB.getDate());
+                entityToSave.setId(entityFromDB.getId());
+                entityToSave.setEmployeeId(entityFromDB.getEmployeeId());
+                entityToSave.setCheckIn(entityFromDB.getCheckIn());
+                entityToSave.setCheckOut(entityFromDB.getCheckOut());
+
+            }
+        } else {
             entityToSave.setDate(entityFromDB.getDate());
             entityToSave.setId(entityFromDB.getId());
             entityToSave.setEmployeeId(entityFromDB.getEmployeeId());
             entityToSave.setCheckIn(entityFromDB.getCheckIn());
-            entityToSave.setCheckOut(entityFromDB.getCheckOut());
+            entityToSave.setCheckOut(request.getCheckOut());
 
-            System.out.println("Check out: "+entityFromDB.getCheckOut());
-            System.out.println("Check in: "+entityFromDB.getCheckIn());
-            entityToSave.setTotalHour((entityFromDB.getCheckOut().getTime() - entityFromDB.getCheckIn().getTime()) / 1000 / 60 / 60);
-            System.err.println(entityToSave.getTotalHour());
         }
+
         repository.save(entityToSave);
 
         return ServerResponseDto.SUCCESS;
     }
 
     public Page<AttendanceDto> statisticAttendance(Long storeId, Pageable pageable) {
-        System.err.println(repository.getPageAttendance(storeId, pageable));
         return repository.getPageAttendance(storeId, pageable);
     }
 }
