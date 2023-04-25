@@ -3,7 +3,7 @@
   "version": "2.4.0",
   "scripts": {
     "dev": "vite --host",
-    "serve": "vue-cli-service serve --port 8081",
+    "serve": "vue-cli-service serve",
     "serve:vite": "vite serve",
     "build": "vue-cli-service build --modern",
     "build:vite": "vite build",

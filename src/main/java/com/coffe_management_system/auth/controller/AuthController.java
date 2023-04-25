@@ -33,7 +33,7 @@ import java.util.*;
 
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "https://coffe-system-web.vercel.app")
 @RequestMapping("/auth")
 public class AuthController {
 

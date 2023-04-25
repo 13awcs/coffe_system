@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "https://coffe-system-web.vercel.app")
 @RequestMapping("admin/{storeId}/order")
 public class OrderController {
     private final OrderService orderService;

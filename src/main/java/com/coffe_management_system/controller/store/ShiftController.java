@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "https://coffe-system-web.vercel.app")
 @RequestMapping("admin/{storeId}/shift")
 public class ShiftController {
     private final ShiftRepository shiftRepository;
