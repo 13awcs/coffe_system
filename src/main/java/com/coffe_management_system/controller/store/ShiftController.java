@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.coffe_management_system.util.Constant.CLIENT_PATH;
+
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "https://coffe-system-web.vercel.app")
+@CrossOrigin(origins = CLIENT_PATH)
 @RequestMapping("admin/{storeId}/shift")
 public class ShiftController {
     private final ShiftRepository shiftRepository;

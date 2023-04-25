@@ -31,9 +31,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static com.coffe_management_system.util.Constant.CLIENT_PATH;
+
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = "https://coffe-system-web.vercel.app")
+@CrossOrigin(origins = CLIENT_PATH)
 @RequestMapping("/auth")
 public class AuthController {
 

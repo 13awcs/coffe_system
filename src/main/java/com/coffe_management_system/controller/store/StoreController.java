@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.coffe_management_system.util.Constant.CLIENT_PATH;
+
 @RestController
-@CrossOrigin(origins = "https://coffe-system-web.vercel.app")
+@CrossOrigin(origins = CLIENT_PATH)
 @RequestMapping("store")
 @RequiredArgsConstructor
 public class StoreController {

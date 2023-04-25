@@ -8,7 +8,8 @@ public interface EmployeeResponseProjection {
     Long getId();
     String getName();
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'.000Z'")
+//    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'.000Z'")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     Date getDob();
     String getAddress();
     String getPhone();

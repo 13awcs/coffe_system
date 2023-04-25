@@ -12,10 +12,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.coffe_management_system.util.Constant.CLIENT_PATH;
+
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "https://coffe-system-web.vercel.app")
+@CrossOrigin(origins = CLIENT_PATH)
 @RequestMapping("item")
 public class ItemController {
     private final ItemService itemService;

@@ -7,8 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static com.coffe_management_system.util.Constant.CLIENT_PATH;
+
 @RestController
-@CrossOrigin(origins = "https://coffe-system-web.vercel.app")
+@CrossOrigin(origins = CLIENT_PATH)
 @RequestMapping("user")
 @RequiredArgsConstructor
 public class UserController {

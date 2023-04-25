@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.coffe_management_system.util.Constant.CLIENT_PATH;
+
 @RestController
-@CrossOrigin(origins = "https://coffe-system-web.vercel.app")
+@CrossOrigin(origins = CLIENT_PATH)
 @RequestMapping("role")
 @RequiredArgsConstructor
 public class RoleController {

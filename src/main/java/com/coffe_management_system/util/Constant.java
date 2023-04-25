@@ -19,15 +19,11 @@ public class Constant {
     public static final String WEB_USER = "WEB_USER";
     public static final String FORMAT_DATE_WITHOUT_SLASH = "yyyyMMdd";
 
-    public static final String URL_S3 = "https://s3-ap-northeast-1.amazonaws.com/honegori/";
-
-    public static final String SYMBOL_FOR_NUMBER_BOOKING_OF_BREAK_TIME = "BREAK";
-
     public static final String SUCCESS_MSG = "SUCCESS";
 
     public static final String EMPTY_STRING = "";
 
-    public static final String LOCALHOST_PATH = "localhost";
+    public static final String CLIENT_PATH = "http://localhost:8081";
 
     public static final String ACCESS_TOKEN_PARAM = "Authorization";
 
