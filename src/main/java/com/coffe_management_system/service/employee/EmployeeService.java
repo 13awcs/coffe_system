@@ -29,8 +29,9 @@ public class EmployeeService {
             if(employeeOpt.isEmpty()) {
                 return ServerResponseDto.ERROR;
             }
+            employee.with(request);
             employee.setCreateTime(employeeOpt.get().getCreateTime());
-            employeeRepository.save(employee.with(request));
+            employeeRepository.save(employee);
         }
         return ServerResponseDto.SUCCESS;
     }
