@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -30,5 +31,19 @@ public class DateStatisticController {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         String byDate = formatter.format(date);
         return ResponseEntity.ok(service.statisticItemSoldByDate(byDate));
+    }
+
+    @GetMapping("/new-customer")
+    public ResponseEntity<ServerResponseDto> statisticNewCustomerByDate(@RequestParam Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        String byDate = formatter.format(date);
+        return ResponseEntity.ok(service.statisticNewCustomerByDate(byDate));
+    }
+
+    @GetMapping("/performance")
+    public ResponseEntity<ServerResponseDto> statisticPerformanceByDate(@RequestParam Date date) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+        String byDate = formatter.format(date);
+        return ResponseEntity.ok(service.statisticPerformanceByDate(byDate));
     }
 }

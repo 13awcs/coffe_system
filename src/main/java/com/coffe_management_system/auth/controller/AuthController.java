@@ -4,25 +4,22 @@ package com.coffe_management_system.auth.controller;
 import com.coffe_management_system.auth.dto.LoginDto;
 import com.coffe_management_system.auth.dto.LoginResponse;
 import com.coffe_management_system.auth.dto.RegistrationDto;
-import com.coffe_management_system.auth.dto.UserResponse;
 import com.coffe_management_system.auth.entity.Role;
 import com.coffe_management_system.auth.entity.User;
-import com.coffe_management_system.auth.repository.UserRepository;
 import com.coffe_management_system.auth.security.JwtTokenUtil;
 import com.coffe_management_system.auth.service.UserService;
 import com.coffe_management_system.dto.ServerResponseDto;
 import com.coffe_management_system.dto.employee.EmployeeAttendanceRequest;
-import com.coffe_management_system.entity.employee.EmployeeAttendanceEntity;
 import com.coffe_management_system.entity.employee.EmployeeEntity;
+import com.coffe_management_system.entity.store.StoreEntity;
 import com.coffe_management_system.repository.employee.EmployeeAttendanceRepository;
 import com.coffe_management_system.repository.employee.EmployeeRepository;
+import com.coffe_management_system.repository.store.StoreRepository;
 import com.coffe_management_system.service.employee.EmployeeAttendanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +45,8 @@ public class AuthController {
     private final BCryptPasswordEncoder passwordEncoder;
 
     private final EmployeeRepository employeeRepository;
+
+    private final StoreRepository storeRepository;
 
     private final EmployeeAttendanceRepository employeeAttendanceRepository;
 
@@ -103,6 +102,8 @@ public class AuthController {
         }
 
         Long storeId = employee.get().getStoreId();
+        Optional<StoreEntity> store = storeRepository.findById(storeId);
+        String storeName = store.get().getName();
         String name = employee.get().getName();
 
         LoginResponse response = new LoginResponse();
@@ -110,6 +111,7 @@ public class AuthController {
         response.setUsername(user.getUsername());
         response.setName(name);
         response.setStoreId(storeId);
+        response.setStoreName(storeName);
         response.setAccessToken(accessToken);
         response.setRefreshToken(refreshToken);
 
