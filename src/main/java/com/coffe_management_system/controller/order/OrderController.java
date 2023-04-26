@@ -15,7 +15,7 @@ import static com.coffe_management_system.util.Constant.CLIENT_PATH;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = CLIENT_PATH)
-@RequestMapping("admin/{storeId}/order")
+@RequestMapping("{storeId}/order")
 public class OrderController {
     private final OrderService orderService;
 

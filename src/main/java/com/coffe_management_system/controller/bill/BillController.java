@@ -12,7 +12,7 @@ import java.util.Date;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("admin/{storeId}/bill")
+@RequestMapping("{storeId}/bill")
 public class BillController {
     private final BillService billService;
 

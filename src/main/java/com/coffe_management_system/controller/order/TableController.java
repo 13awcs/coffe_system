@@ -12,7 +12,7 @@ import static com.coffe_management_system.util.Constant.CLIENT_PATH;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = CLIENT_PATH)
-@RequestMapping("admin/{storeId}/table")
+@RequestMapping("{storeId}/table")
 public class TableController {
 
     private final TableService service;
