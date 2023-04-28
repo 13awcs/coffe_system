@@ -23,16 +23,16 @@ public class EmployeeService {
         Long storeId = request.getStoreId();
         EmployeeEntity employee = new EmployeeEntity() ;
         if(employeeId == null) {
-            employeeRepository.save(employee.initInstance(request));
+            employee.initInstance(request);
         } else {
             Optional<EmployeeEntity> employeeOpt = employeeRepository.findByStoreIdAndId(storeId, employeeId);
             if(employeeOpt.isEmpty()) {
                 return ServerResponseDto.ERROR;
             }
-            employee.setCreateTime(employeeOpt.get().getCreateTime());
             employee.with(request);
-            employeeRepository.save(employee);
+            employee.setCreateTime(employeeOpt.get().getCreateTime());
         }
+        employeeRepository.save(employee);
         return ServerResponseDto.SUCCESS;
     }
 
