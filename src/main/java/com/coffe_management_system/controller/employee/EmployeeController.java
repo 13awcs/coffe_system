@@ -27,8 +27,7 @@ public class EmployeeController {
 
     @PostMapping("/save")
     public ResponseEntity<ServerResponseDto> saveEmployee(@RequestBody EmployeeRequest request) {
-        employeeService.saveEmployee(request);
-        return ResponseEntity.ok(ServerResponseDto.SUCCESS);
+        return ResponseEntity.ok(employeeService.saveEmployee(request));
     }
 
     @GetMapping("/{storeId}/detail/{id}")
