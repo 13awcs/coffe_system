@@ -29,7 +29,14 @@ public class EmployeeService {
             if(employeeOpt.isEmpty()) {
                 return ServerResponseDto.ERROR;
             }
-            employee.with(request);
+            employee.setId(request.getId());
+            employee.setName(request.getName());
+            employee.setDob(request.getDob());
+            employee.setAddress(request.getAddress());
+            employee.setPhone(request.getPhone());
+            employee.setEmail(request.getEmail());
+            employee.setStoreId(request.getStoreId());
+            employee.setShiftId(request.getShiftId());
             employee.setCreateTime(employeeOpt.get().getCreateTime());
         }
         employeeRepository.save(employee);
