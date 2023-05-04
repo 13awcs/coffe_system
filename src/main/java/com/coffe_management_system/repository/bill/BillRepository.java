@@ -18,9 +18,9 @@ public interface BillRepository extends JpaRepository<BillEntity, Long> {
             "order by b.create_time desc ", nativeQuery = true)
     List<BillEntity> getListBillByDate(Long storeId, String date);
 
-    @Query(value = "select count(b.id) from bill b where DATE_FORMAT(b.create_time, '%Y/%m/%d') = ?1 ", nativeQuery = true)
-    int countBillByDate(String date);
+    @Query(value = "select count(b.id) from bill b where DATE_FORMAT(b.create_time, '%Y/%m/%d') = ?2 and b.store_id = ?1 ", nativeQuery = true)
+    int countBillByDate(Long storeId, String date);
 
-    @Query(value = "select sum(b.final_price) from bill b where DATE_FORMAT(b.create_time, '%Y/%m/%d') = ?1 ", nativeQuery = true)
-    Double getRevenueByDate(String date);
+    @Query(value = "select sum(b.final_price) from bill b where DATE_FORMAT(b.create_time, '%Y/%m/%d') = ?2 and b.store_id = ?1 ", nativeQuery = true)
+    Double getRevenueByDate(Long storeId, String date);
 }

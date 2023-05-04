@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.coffe_management_system.util.Constant.CLIENT_PATH;
+
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = CLIENT_PATH)
 @RequestMapping("{storeId}/bill")
 public class BillController {
     private final BillService billService;

@@ -38,7 +38,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItemEntity, Long
     @Query(value = "select oi.item_id as id, sum(oi.quantity) as quantity " +
             "from order_item oi join o_order o " +
             "on oi.order_id = o.id " +
-            "where DATE_FORMAT(o.create_time, '%Y/%m/%d') = ?1 " +
+            "where DATE_FORMAT(o.create_time, '%Y/%m/%d') = ?2 and o.store_id = ?1 " +
             "group by oi.item_id ", nativeQuery = true)
-    List<StatisticSoldItemDto> statisticSoldItemByDate(String date);
+    List<StatisticSoldItemDto> statisticSoldItemByDate(Long storeId, String date);
 }

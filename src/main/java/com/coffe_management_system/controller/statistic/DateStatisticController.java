@@ -4,33 +4,33 @@ import com.coffe_management_system.dto.ServerResponseDto;
 import com.coffe_management_system.service.statistic.date.StatisticByDateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.coffe_management_system.util.Constant.CLIENT_PATH;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("admin/statistic-by-date")
+@CrossOrigin(origins = CLIENT_PATH)
+@RequestMapping("admin/statistic-by-date/{storeId}")
 public class DateStatisticController {
     private final StatisticByDateService service;
 
     @GetMapping("/revenue")
-    public ResponseEntity statisticOrderByDate(@RequestParam Date date) {
+    public ResponseEntity statisticOrderByDate(@PathVariable Long storeId, @RequestParam Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         String byDate = formatter.format(date);
-        return ResponseEntity.ok(service.statisticOrderByDate(byDate));
+        return ResponseEntity.ok(service.statisticOrderByDate(storeId, byDate));
     }
 
     @GetMapping("/sold-item-by-date")
-    public ResponseEntity<ServerResponseDto> statisticSoldItemByDate(@RequestParam Date date) {
+    public ResponseEntity<ServerResponseDto> statisticSoldItemByDate(@PathVariable Long storeId, @RequestParam Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         String byDate = formatter.format(date);
-        return ResponseEntity.ok(service.statisticItemSoldByDate(byDate));
+        return ResponseEntity.ok(service.statisticItemSoldByDate(storeId, byDate));
     }
 
     @GetMapping("/new-customer")
@@ -41,9 +41,9 @@ public class DateStatisticController {
     }
 
     @GetMapping("/performance")
-    public ResponseEntity<ServerResponseDto> statisticPerformanceByDate(@RequestParam Date date) throws ParseException {
+    public ResponseEntity<ServerResponseDto> statisticPerformanceByDate(@PathVariable Long storeId, @RequestParam Date date) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
         String byDate = formatter.format(date);
-        return ResponseEntity.ok(service.statisticPerformanceByDate(byDate));
+        return ResponseEntity.ok(service.statisticPerformanceByDate(storeId, byDate));
     }
 }
