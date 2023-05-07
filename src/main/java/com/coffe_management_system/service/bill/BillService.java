@@ -37,7 +37,9 @@ public class BillService {
         BillEntity bill = new BillEntity();
         Long employeeId = request.getEmployeeId();
         Long customerId = request.getCustomerId();
-        Long orderId = request.getOrderId();
+        Long tableId = request.getTableId();
+        Long orderId = orderItemRepository.getMaxOrderIdByTableId(tableId);
+        System.err.println(orderId);
         CustomerEntity customer;
         customer = customerRepository.findCustomerById(customerId);
         if (customerId == null) {
@@ -49,7 +51,7 @@ public class BillService {
             bill.setDiscount(typeCustomer.getTypeCustomer().getValue());
         }
 
-        Integer finalPrice = orderItemRepository.getFinalPrice(request.getOrderId());
+        Integer finalPrice = orderItemRepository.getFinalPrice(orderId);
         bill.setOrderId(orderId);
         bill.setEmployeeId(employeeId);
         bill.setStoreId(storeId);

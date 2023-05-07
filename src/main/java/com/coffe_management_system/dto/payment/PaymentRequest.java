@@ -7,7 +7,7 @@ import javax.persistence.Convert;
 
 @Data
 public class PaymentRequest {
-    private Long orderId;
+    private Long tableId;
     private Long customerId;
     private Long employeeId;
 

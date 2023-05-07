@@ -41,4 +41,11 @@ public interface OrderItemRepository extends JpaRepository<OrderItemEntity, Long
             "where DATE_FORMAT(o.create_time, '%Y/%m/%d') = ?2 and o.store_id = ?1 " +
             "group by oi.item_id ", nativeQuery = true)
     List<StatisticSoldItemDto> statisticSoldItemByDate(Long storeId, String date);
+
+    @Query(value = "select max(o.id) " +
+            "from order_item oi " +
+            "join o_order o on oi.order_id = o.id " +
+            "join t_table t on o.table_id = t.id " +
+            "where t.id = ?1", nativeQuery = true)
+    Long getMaxOrderIdByTableId(Long tableId);
 }

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -23,7 +24,14 @@ public class EmployeeService {
         Long storeId = request.getStoreId();
         EmployeeEntity employee = new EmployeeEntity() ;
         if(employeeId == null) {
-            employee.initInstance(request);
+            employee.setName(request.getName());
+            employee.setDob(request.getDob());
+            employee.setAddress(request.getAddress());
+            employee.setPhone(request.getPhone());
+            employee.setEmail(request.getEmail());
+            employee.setStoreId(request.getStoreId());
+            employee.setShiftId(request.getShiftId());
+            employee.setCreateTime(new Date());
         } else {
             Optional<EmployeeEntity> employeeOpt = employeeRepository.findByStoreIdAndId(storeId, employeeId);
             if(employeeOpt.isEmpty()) {

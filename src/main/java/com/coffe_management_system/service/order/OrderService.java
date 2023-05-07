@@ -65,31 +65,6 @@ public class OrderService {
         table.setStatus(!tableOpt.get().isStatus());
         tableRepository.save(table);
 
-
-//        Optional<TableEntity> tableOpt = tableRepository.findById(tableId);
-//        if(tableOpt.isEmpty()) {
-//            return ServerResponseDto.ERROR;
-//        }
-//        if(tableOpt.get().isStatus()) {
-//            System.err.println(tableOpt.get().isStatus());
-//            return ServerResponseDto.error(ResponseCase.TABLE_IS_BUSY);
-//        }
-
-//
-//        OrderEntity entity = OrderEntity.initInstance(request);
-//        orderRepository.save(entity);
-//
-//        orderItemService.saveOrderItem(entity.getId(), request.getListItemRequest());
-//        Double price = orderItemRepository.getPriceByOrderId(entity.getId());
-//        entity.setTotalPrice(price);
-//        orderRepository.save(entity);
-//
-//        TableEntity table = new TableEntity();
-//        table.setId(tableOpt.get().getId());
-//        table.setName(tableOpt.get().getName());
-//        table.setStatus(!tableOpt.get().isStatus());
-//        tableRepository.save(table);
-
         return ServerResponseDto.SUCCESS;
     }
 
