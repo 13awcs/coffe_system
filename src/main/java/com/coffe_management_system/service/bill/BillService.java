@@ -69,6 +69,7 @@ public class BillService {
         orderRepository.save(order);
 
         TableResponseProjection tableFromDB = tableRepository.findByStoreIdAndOrderIdAndStatusIsFalse(storeId, orderId, true);
+        System.err.println(tableFromDB);
         TableEntity table = new TableEntity();
         table.setId(tableFromDB.getId());
         table.setName(tableFromDB.getName());
@@ -76,16 +77,17 @@ public class BillService {
         table.setStatus(!tableFromDB.isStatus());
         tableRepository.save(table);
 
-        if(bill.getFinalPrice() >= 50000 && bill.getFinalPrice() < 100000) {
-            customer.setPoint(customer.getPoint() + 1);
-        } else if(bill.getFinalPrice() >= 100000) {
-            customer.setPoint(customer.getPoint() + 2);
-        } else if(bill.getFinalPrice() < 50000) {
-            customer.setPoint(customer.getPoint());
+        if (customerId != null) {
+            if(bill.getFinalPrice() >= 50000 && bill.getFinalPrice() < 100000) {
+                customer.setPoint(customer.getPoint() + 1);
+            } else if(bill.getFinalPrice() >= 100000) {
+                customer.setPoint(customer.getPoint() + 2);
+            } else if(bill.getFinalPrice() < 50000) {
+                customer.setPoint(customer.getPoint());
+            }
+            customerRepository.save(customer);
+            typeCustomerService.saveTypeCustomer(customer.getId());
         }
-        customerRepository.save(customer);
-        typeCustomerService.saveTypeCustomer(customer.getId());
-
         return ServerResponseDto.SUCCESS;
     }
 
