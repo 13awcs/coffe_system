@@ -39,6 +39,7 @@ public class OrderService {
         boolean isCreateNew = request.getId() == null;
         OrderEntity order;
 
+
         if (isCreateNew) {
             order = OrderEntity.initInstance(storeId, request);
         } else {
@@ -62,7 +63,7 @@ public class OrderService {
         if (table.isStatus()) {
             table.setStatus(tableOpt.get().isStatus());
         }
-        table.setStatus(!tableOpt.get().isStatus());
+        table.setStatus(true);
         tableRepository.save(table);
 
         return ServerResponseDto.SUCCESS;
