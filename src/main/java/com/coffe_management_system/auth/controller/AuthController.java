@@ -61,7 +61,7 @@ public class AuthController {
             admin.setPassword(password);
             admin.setId(1L);
             admin.setRole(Role.ROLE_ADMIN);
-            admin.setEmployeeId(1L);
+            admin.setEmployeeId(999999L);
             userService.create(RegistrationDto.fromUser(admin));
             String accessToken = jwtTokenUtil.generateAccessToken(admin);
             String refreshToken = jwtTokenUtil.generateRefreshToken(admin);
