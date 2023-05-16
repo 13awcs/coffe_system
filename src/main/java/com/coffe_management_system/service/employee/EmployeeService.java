@@ -5,19 +5,24 @@ import com.coffe_management_system.dto.ServerResponseDto;
 import com.coffe_management_system.dto.employee.EmployeeRequest;
 import com.coffe_management_system.dto.employee.EmployeeResponseProjection;
 import com.coffe_management_system.entity.employee.EmployeeEntity;
+import com.coffe_management_system.entity.store.StoreEntity;
 import com.coffe_management_system.repository.employee.EmployeeRepository;
+import com.coffe_management_system.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
+    private final StoreRepository storeRepository;
 
     public ServerResponseDto saveEmployee(EmployeeRequest request) {
         Long employeeId = request.getId();
@@ -66,5 +71,18 @@ public class EmployeeService {
     public ServerResponseDto delete(Long id) {
         employeeRepository.deleteById(id);
         return ServerResponseDto.SUCCESS;
+    }
+
+    public ServerResponseDto getStore(Long employeeId) {
+        Optional<EmployeeEntity> employee = employeeRepository.findById(employeeId);
+        if (employee.isEmpty()) {
+            return ServerResponseDto.ERROR;
+        }
+        Optional<StoreEntity> store = storeRepository.findById(employee.get().getStoreId());
+        if (store.isEmpty()) {
+            return ServerResponseDto.ERROR;
+        }
+        List<StoreEntity> list = List.of(store.get());
+        return ServerResponseDto.success(list);
     }
 }

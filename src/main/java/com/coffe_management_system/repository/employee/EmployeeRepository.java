@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.Optional;
 
 @Repository
@@ -30,4 +31,5 @@ public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Long> 
             "join shift sh on em.shift_id = sh.id " +
             "where em.store_id = ?1 ", nativeQuery = true)
     Page<EmployeeResponseProjection> getPageEmployee(Long storeId, Pageable pageable);
+
 }

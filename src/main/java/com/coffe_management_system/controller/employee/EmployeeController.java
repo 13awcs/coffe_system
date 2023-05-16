@@ -18,7 +18,7 @@ import static com.coffe_management_system.util.Constant.CLIENT_PATH;
 
 @RestController
 @CrossOrigin(origins = CLIENT_PATH)
-@RequestMapping("admin/employee")
+@RequestMapping("employee")
 @RequiredArgsConstructor
 public class EmployeeController {
 

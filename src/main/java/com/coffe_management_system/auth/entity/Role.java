@@ -9,6 +9,7 @@ public class Role {
     public static final String ROLE_WAITER = "ROLE_WAITER";
     public static final String ROLE_CASHIER = "ROLE_CASHIER";
     public static final String ROLE_BARISTA = "ROLE_BARISTA";
+    public static final String ROLE_MANAGER = "ROLE_MANAGER";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

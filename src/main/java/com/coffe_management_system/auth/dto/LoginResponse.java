@@ -15,6 +15,7 @@ public class LoginResponse {
     private String storeName;
     private String username;
     private String name;
+    private String role;
     private String accessToken;
     private String refreshToken;
 }

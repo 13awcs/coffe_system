@@ -13,7 +13,7 @@ import static com.coffe_management_system.util.Constant.CLIENT_PATH;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = CLIENT_PATH)
-@RequestMapping("admin/{storeId}/shift")
+@RequestMapping("{storeId}/shift")
 public class ShiftController {
     private final ShiftRepository shiftRepository;
 

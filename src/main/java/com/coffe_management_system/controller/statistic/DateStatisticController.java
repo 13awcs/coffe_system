@@ -15,7 +15,7 @@ import static com.coffe_management_system.util.Constant.CLIENT_PATH;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = CLIENT_PATH)
-@RequestMapping("admin/statistic-by-date/{storeId}")
+@RequestMapping("statistic-by-date/{storeId}")
 public class DateStatisticController {
     private final StatisticByDateService service;
 

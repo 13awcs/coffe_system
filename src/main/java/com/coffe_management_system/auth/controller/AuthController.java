@@ -69,6 +69,7 @@ public class AuthController {
             response.setEmployeeId(admin.getEmployeeId());
             response.setUsername(admin.getUsername());
             response.setName("Admin");
+            response.setRole(admin.getRole());
             response.setAccessToken(accessToken);
             response.setRefreshToken(refreshToken);
             return ResponseEntity.ok(ServerResponseDto.success(response));
@@ -105,6 +106,7 @@ public class AuthController {
         Optional<StoreEntity> store = storeRepository.findById(storeId);
         String storeName = store.get().getName();
         String name = employee.get().getName();
+        String role = user.getRole();
 
         LoginResponse response = new LoginResponse();
         response.setEmployeeId(employeeId);
@@ -112,6 +114,7 @@ public class AuthController {
         response.setName(name);
         response.setStoreId(storeId);
         response.setStoreName(storeName);
+        response.setRole(role);
         response.setAccessToken(accessToken);
         response.setRefreshToken(refreshToken);
 
@@ -149,6 +152,9 @@ public class AuthController {
     public ResponseEntity<ServerResponseDto> logout(@RequestParam String token) {
         JwtTokenUtil jwt = new JwtTokenUtil();
         Long employeeId = jwt.getEmployeeId(token);
+        if (employeeId == 999999L) {
+            return ResponseEntity.ok(ServerResponseDto.SUCCESS);
+        }
 
         EmployeeAttendanceRequest attendanceRequest = new EmployeeAttendanceRequest();
         String pattern = "yyyy/MM/dd";
